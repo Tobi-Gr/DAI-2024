@@ -1,0 +1,20 @@
+{
+  "name": "tp01",
+  "version": "1.0.0",
+  "description": "",
+  "main": "ej1",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ej1": "node src/ej1.js",
+    "ej2": "node src/ej2.js",
+    "ej3": "node src/ej3.js",
+    "ej4": "node src/ej4.js",
+    "ej5": "node src/ej5.js",
+    "ej6": "node src/ej6.js",
+    "ej7": "node src/ej7.js",
+    "ej8": "node src/ej8.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
