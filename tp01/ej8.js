@@ -1,31 +1,10 @@
-//import axios from "axios";
-const APIKEY = "d6daa627";
-const OMDBSearchByPage = async (searchText, page = 1) => {
-let returnObject = {
-respuesta : false,
-cantidadTotal : 0,
-datos : {}
-};
-// No seas vago, acá hay que hacer el cuerpo de la función!!!
-return returnObject;
-};
-const OMDBSearchComplete = async (searchText) => {
-let returnObject = {
-respuesta : false,
-cantidadTotal : 0,
-datos : {}
-};
-// No seas vago, acá hay que hacer el cuerpo de la función!!!
-return returnObject;
-};
-const OMDBGetByImdbID = async (imdbID) => {
-let returnObject = {
-respuesta : false,
-cantidadTotal : 0,
-datos : {}
-};
-// No seas vago, acá hay que hacer el cuerpo de la función!!!
-return returnObject;
-};
-// Exporto todo lo que yo quiero exponer del módulo:
-export {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID};
+import {OMDBSearchByPage, OMDBSearchComplete, OMDBGetByImdbID} from "./src/modules/OMDBWrapped.js"
+
+let respuesta = await OMDBSearchByPage("superman", 1)
+console.log('Busqueda de Superman en la 1era página: ', respuesta)
+
+respuesta = await OMDBSearchComplete("barbie")
+console.log('Busqueda de Barbie: ', respuesta);
+
+respuesta = await OMDBGetByImdbID("tt0067992");
+console.log('Búsqueda del ID tt0067992: ', respuesta);
