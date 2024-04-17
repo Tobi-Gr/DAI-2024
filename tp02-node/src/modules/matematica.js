@@ -1,8 +1,9 @@
-/* Exporto desde el módulo "matematicas" la constante PI,
-la funciones sumar y multiplicar */
-const PI = 3.14;
-const sumar = (x, y) => x + y;
-const multiplicar = (a, b) =>  a*b;
+const matematica = {
+    PI: 3.14,
+    sumar: (x, y) => x + y,
+    restar: (x, y) => x - y,
+    multiplicar: (a, b) => a * b,
+    dividir: (a, b) => a / b
+};
 
-// Exporto todo lo que yo quiero exponer del módulo hacia el exterior.
-export {PI, sumar, multiplicar};
+export default matematica;
