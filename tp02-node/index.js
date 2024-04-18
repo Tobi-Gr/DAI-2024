@@ -1,6 +1,7 @@
 import Alumno from "./src/models/alumno.js";
 import matematica from "./src/modules/matematica.js";
 import omdbApi from "./src/modules/OMDBwrapped.js";
+import validacionesHelper from "./src/modules/validaciones-helper.js";
 
 import express from "express"; // hacer npm i express
 import cors from "cors"; // hacer npm i cors
@@ -26,13 +27,14 @@ app.get('/saludar', (req, res) => { // EndPoint "/saludar"
 })
 
 app.get('/saludar/:nombre', (req, res) => { // EndPoint "/saludar"
-    res.send(`Hola ${ req.params.nombre}!`);
+    let nombre = validacionesHelper.getStringOrDefault(req.params.nombre, '');
+    res.send(`Hola ${nombre}!`);
 })
 
 app.get('/validarfecha/:anio/:mes/:dia', (req, res) => { // EndPoint "/validarfecha"
-    let anio = req.params.anio;
-    let mes = req.params.mes;
-    let dia = req.params.dia;
+    let anio = req.params.anio ?? '2000'; //si no te manda ningún año, es 2000 por default
+    let mes = req.params.mes ?? '1';
+    let dia = req.params.dia ?? '1';
 
     let fecha  = `${anio}-${mes}-${dia}`;
     let fechaRes = null;
@@ -46,18 +48,24 @@ app.get('/validarfecha/:anio/:mes/:dia', (req, res) => { // EndPoint "/validarfe
 })
 
 app.get('/matematica/sumar',(req, res) =>{
-    let resultado = matematica.sumar(parseInt(req.query.n1), parseInt(req.query.n2));
+    let n1 = validacionesHelper.getIntegerOrDefault(req.query.n1, 1);
+    let n2 = validacionesHelper.getIntegerOrDefault(req.query.n2, 1);
+    let resultado = matematica.sumar(n1, n2);
     res.send(resultado.toString());
 })
 
 
 app.get('/matematica/restar', (req, res)=> {
-    let resultado = matematica.restar(parseInt(req.query.n1), parseInt(req.query.n2));
+    let n1 = validacionesHelper.getIntegerOrDefault(req.query.n1, 1);
+    let n2 = validacionesHelper.getIntegerOrDefault(req.query.n2, 1);
+    let resultado = matematica.restar(n1, n2);
     res.send(resultado.toString()); 
 })
 
 app.get('/matematica/multiplicar', (req, res)=> {
-    let resultado = matematica.multiplicar(parseInt(req.query.n1), parseInt(req.query.n2));
+    let n1 = validacionesHelper.getIntegerOrDefault(req.query.n1, 1);
+    let n2 = validacionesHelper.getIntegerOrDefault(req.query.n2, 1);
+    let resultado = matematica.multiplicar(n1, n2);
     res.send(resultado.toString()); 
 })
 
@@ -69,24 +77,30 @@ app.get('/matematica/dividir', (req, res)=> {
     }
     else
     {
-        let resultado = matematica.dividir(parseInt(req.query.n1), parseInt(req.query.n2));
-        res.send(resultado.toString()); 
-    }    
+        let n1 = validacionesHelper.getIntegerOrDefault(req.query.n1, 1);
+        let n2 = validacionesHelper.getIntegerOrDefault(req.query.n2, 1);
+        let resultado = matematica.dividir(n1, n2);
+        res.send(resultado.toString());
+    }
 })
 
 app.get('/omdb/searchbypage', async (req, res)=> {
 
-    let response = await omdbApi.searchByPage(req.query.search, req.query.p);
+    let search = validacionesHelper.getStringOrDefault(req.query.search, '%');
+    let page = validacionesHelper.getIntegerOrDefault(req.query.p);
+    let response = await omdbApi.searchByPage(search, page);
     res.send(response);
 })
 
 app.get('/omdb/searchcomplete', async (req, res)=> {
 
-    let response = await omdbApi.searchComplete(req.query.search);
+    let search = validacionesHelper.getStringOrDefault(req.query.search);
+    let response = await omdbApi.searchComplete(search);
     res.send(response);
 })
 
 app.get('/omdb/getbyomdbid', async (req, res)=> {
+    let id = validacionesHelper.getStringOrDefault(req.query.omdbid, 'tt0317219');
     let response = await omdbApi.getByImdbID(req.query.omdbid);
     res.send(response);
 })
@@ -94,12 +108,17 @@ app.get('/omdb/getbyomdbid', async (req, res)=> {
 
 app.get('/alumnos', (req, res) =>
 {
-    res.sendStatus(200); //preguntar qué hay que devolver
+    res.sendStatus(200);
 })
 
 app.get('/alumnos/:dni', (req, res) =>
 {
-    let estudiante = alumnosArray.find(alumno => alumno.dni === req.params.dni);
+    let dni = validacionesHelper.getIntegerOrDefault(req.params.dni, -1);
+    if (dni == -1)
+    {
+        res.status(400);
+    }
+    let estudiante = alumnosArray.find(alumno => alumno.dni === dni);
     if (estudiante) {
         res.send(estudiante);
     } else {
@@ -109,26 +128,38 @@ app.get('/alumnos/:dni', (req, res) =>
 
 app.post('/alumnos', (req, res)=>
 {
-    const nuevoAlumno = {
-        username: req.body.username,
-        dni: req.body.dni,
-        edad: req.body.edad
-    };
-    alumnosArray.push(nuevoAlumno);
-    res.sendStatus(201);
+    let username = validacionesHelper.getStringOrDefault(req.body.username, '');
+    let dni = validacionesHelper.getIntegerOrDefault(req.body.dni, -1);
+    let edad = validacionesHelper.getIntegerOrDefault(req.body.edad, -1)
+    if(dni != - 1 && edad != -1 && username != '')
+    {
+        const nuevoAlumno = {
+            username: username,
+            dni: dni,
+            edad: edad
+        };
+        alumnosArray.push(nuevoAlumno);
+        res.sendStatus(201);
+    }
+    res.sendStatus(400);
 })
 
-app.delete('/alumnos', (req, res) => //siempre devuelve 404
+app.delete('/alumnos', (req, res) =>
 {
-    let index = alumnosArray.findIndex(alumno => alumno.dni == req.params.dni);
-    if (index !== -1)
+    let search = validacionesHelper.getIntegerOrDefault(req.body.dni, -1);
+    if (search != -1)
     {
-        alumnosArray.splice(index, 1);
-        res.sendStatus(200);
+        let index = alumnosArray.findIndex(alumno => alumno.dni == search);
+        if (index !== -1)
+        {
+            alumnosArray.splice(index, 1);
+            res.sendStatus(200);
+        }
+        else {
+            res.sendStatus(404);
+        }
     }
-    else {
-        res.sendStatus(404);
-    }
+    res.sendStatus(400);
 })
 //
 // Inicio el Server y lo pongo a escuchar.
