@@ -20,7 +20,8 @@ export default class UserRepository {
         return dbh.requestOne('SELECT * FROM public.users WHERE username = $1;', [username]);
     }
 
-    /* falta terminar de editar el código, perdón re lento todo pero lo que me dejó mi mano :(( ))
+    /* PUNTO 5 
+    falta terminar de editar el código, perdón re lento todo pero lo que me dejó mi mano :(( ))
     getByFilter = async (entity) => {
         let params = [];
         let conditions = [];

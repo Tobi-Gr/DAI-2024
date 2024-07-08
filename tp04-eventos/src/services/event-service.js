@@ -1,6 +1,12 @@
 import EventRepository from './../repositories/event-repository.js';
 
 export default class EventService {
+    getAll = async (offset, limit) => {
+        const repo = new EventRepository();
+        const returnArray = await repo.getAllAsync(offset, limit);
+        return returnArray;
+    }
+    
     getByFilter = async (entity) => {
         const repo = new EventRepository();
         const returnArray = await repo.getByFilter(entity);

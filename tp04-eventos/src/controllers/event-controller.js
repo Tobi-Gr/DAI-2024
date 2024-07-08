@@ -9,13 +9,13 @@ const v = new ValidationsHelper();
 const am = new AuthMiddleware();
 const svc_el = new EventLocationService();
 
-//router.get('', async(req, res) => {
-    /*const returnArray = await svc.getAllAsync();
+router.get('', async(req, res) => {
+    const returnArray = await svc.getAll(req.query.pagina, req.query.limit);
     if(returnArray != null)
         return res.status(200).json(returnArray);
     else
-        return res.status(500).send(`Error interno.`);*/
-//});
+        return res.status(500).send(`Error interno.`);
+});
 
 router.get('', async (req, res) => { 
     let data = await svc.getByFilter(req.query);

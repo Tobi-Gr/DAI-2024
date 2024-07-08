@@ -1,20 +1,29 @@
 import DBHelper from '../helpers/database-helper.js';
+import ValHelper from '../helpers/validations-helper.js';
 const dbh = new DBHelper();
+const v = new ValHelper();
 
 export default class EventRepository {
-    getAllAsync = async () => {
-        //paginación ¿
-        //const limit = 10; //eventos por página
-        //offset es después de cuantas filas, muestra. Por ejemplo pones SELECT * from public.events order by id  OFFSET 10 LIMIT 5 
-        //y te muestra las primeras 5 filas después de 10 filas
-        let limit = validateInt(entity.limit, 0);
-        let offset = validateInt(entity.offset, 0);
-        if (req.params.limit){
-            offset = req.params.page * limit;
+    getAllAsync = async (offs, lim) => {
+        //Si no te da un limit o si no es un número, el default es 10
+        let limit = lim;
+        if(!v.isANumber(lim)){
+            limit = 10;
         }
-        else{
-            offset = 0;        
+        //Si no te da un offset o si no es un número, el default es 0
+        let offset = offs;
+        if(!v.isANumber(offs)){
+            offset = 0;
         }
+
+        if (lim){
+            offset = offset * limit;
+        }
+
+        let query = 'SELECT * FROM public.events ORDER BY id  OFFSET $1 LIMIT $2';
+        let values = [offset, limit];
+        let returnEvents = dbh.requestValues(query, values);
+        return returnEvents;
     }
     
     getByFilter = async (entity) => {

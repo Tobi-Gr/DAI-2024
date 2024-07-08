@@ -13,10 +13,10 @@ class AutenticationMiddleware {
         let authHeader = req.headers.authorization;
         let payload;
         let authService;
-        console.log("Header: ", authHeader);
         if(!authHeader) {
             res.status(401).send('401 Unauthorized, no iniciaste sesión.');
         } else {
+            authHeader = this.removeBearer(authHeader);
             authService = new AuthService();
             payload = await authService.decryptToken(authHeader);
             if(payload != null){
