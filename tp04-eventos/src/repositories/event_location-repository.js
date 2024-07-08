@@ -3,6 +3,11 @@ const dbh = new DBHelper();
 
 export default class EventLocationRepository {
 
+    getAllAsync = async () =>
+    {
+        return dbh.requestValues('SELECT * FROM public.event_locations;');
+    }
+
     getByIdAsync = async (id) =>
     {
         return dbh.requestOne('SELECT * FROM public.event_locations WHERE id = $1;', [id]);

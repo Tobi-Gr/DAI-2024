@@ -30,7 +30,7 @@ router.get('/:id', async (req, res) => {
     else
         respuesta = res.status(400).send('Datos no válidos.');
     return respuesta;
-})
+});
 
 router.get('/:id/event-location', mw.AuthMiddleware, async (req, res) => {
     let id = req.params.id;
