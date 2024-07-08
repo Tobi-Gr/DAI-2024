@@ -18,4 +18,10 @@ export default class EventLocationService {
         const returnArray = await repo.getByIdLocationAsync(id);
         return returnArray;
     }
+
+    createEventLocation = async (entity) => {
+        const repo = new EventLocationRepository();
+        const created = await repo.createEventLocation(entity);
+        return created;
+    }
 }

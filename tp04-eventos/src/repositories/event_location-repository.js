@@ -16,4 +16,13 @@ export default class EventLocationRepository {
     getByIdLocationAsync = async (id) => {
         return dbh.requestValues('SELECT * FROM public.event_locations WHERE id_location = $1;', [id]);
     }
+
+    createEventLocation = async (entity) => {
+        let created = await dbh.requestOne(`
+        INSERT INTO public.event_locations(id_location, name, full_address, max_capacity, latitude, longitude, id_creator_user)
+            VALUES($1, $2, $3, $4, $5, $6, $7)`, //no se si va el id_location, lo pongo por las dudas
+        [entity.id_location, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, 
+        entity.id_creator_user])
+        return created;
+    }
 }
