@@ -30,8 +30,8 @@ router.get('/:id', mw.AuthMiddleware, async (req, res) => {
     return respuesta;
 });
 
-router.post('', am.AuthMiddleware, async (req, res) => {
-    
+router.post('', mw.AuthMiddleware, async (req, res) => {
+
 });
 
 
