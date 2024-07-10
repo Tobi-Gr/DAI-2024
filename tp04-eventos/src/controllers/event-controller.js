@@ -75,7 +75,7 @@ router.post('', am.AuthMiddleware, async (req, res) => {
         return res.status(400).send("Bad request, nombre y descripción tienen que tener más de tres caracteres");
     if (req.body.price < 0 || req.body.duration_in_minutes < 0)
         return res.status(400).send("Bad request, el precio y la duración en minutos tienen que ser mayores o iguales a cero");
-    if(req.body.max_assistance > eventLocation.max_assistance) //max assistence da null
+    if(req.body.max_capacity > eventLocation.max_capacity)
         return res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");   
     
         return res.status(200).send("Evento creado.");
