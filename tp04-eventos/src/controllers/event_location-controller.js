@@ -54,4 +54,28 @@ router.post('', mw.AuthMiddleware, async (req, res) => {
     }
 });
 
+router.put('', mw.AuthMiddleware, async(req, res) => {
+    try {
+        let updatedEntity;
+        const eventLocation = await svc.getByIdAsync(req.body.id);
+        console.log(eventLocation);
+        if (req.body.name == null || req.body.name.length < 3 || req.body.full_address == null || req.body.full_address.length < 3)
+            respuesta = res.status(400).send("Bad request, nombre y dirección tienen que tener más de tres caracteres");
+        if (v.isANumber(req.body.id))
+        {
+            if(eventLocation.id != req.body.id)
+                respuesta = res.status(400).send("Bad request, id_location no existe en el contexto actual");
+        }
+        if(req.body.max_assistance > eventLocation.max_assistance) 
+            respuesta = res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");   
+        else
+            updatedEntity = await svc.updateEventLocation(req.body);
+            console.log(updatedEntity);
+            return res.status(200).send("Infromación de la locación del evento actualizada."); //manda bien todo pero la info no se actualiza :(
+    } catch(error){
+        console.error(error);
+        return res.status(200).send("Error interno"); 
+    }
+})
+
 export default router;
