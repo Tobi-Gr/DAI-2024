@@ -78,4 +78,18 @@ router.put('', mw.AuthMiddleware, async(req, res) => {
     }
 })
 
+router.delete('/:id', async (req, res) => {
+    let respuesta;
+    if (v.isANumber(req.params.id)) {
+        try {
+            await svc.deleteByIdAsync(req.params.id);
+            respuesta = res.status(200).send("Ok.");
+        } catch (error) {
+            respuesta = res.status(500).send(error.message);
+        }
+    } else {
+        respuesta = res.status(400).send(`Datos inválidos.`);
+    }
+    return respuesta;
+})
 export default router;

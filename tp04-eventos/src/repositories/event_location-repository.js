@@ -3,14 +3,11 @@ const dbh = new DBHelper();
 
 export default class EventLocationRepository 
 {
-
-    getAllAsync = async () =>
-    {
+    getAllAsync = async () => {
         return dbh.requestValues('SELECT * FROM public.event_locations;');
     }
 
-    getByIdAsync = async (id) =>
-    {
+    getByIdAsync = async (id) => {
         return dbh.requestOne('SELECT * FROM public.event_locations WHERE id = $1;', [id]);
     }
 
@@ -32,5 +29,9 @@ export default class EventLocationRepository
         SET id_location = $1, name = $2, full_address = $3, max_capacity = $4, latitude = $5, longitude = $6, id_creator_user = $7  WHERE id = $8 `,
         [entity.name, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, entity.id_creator_user]);
         return updated;
+    }
+
+    deleteByIdAsync = async (id) => {
+        return dbh.requestOne('DELETE FROM public.event_location WHERE id = $1', [id])
     }
 }

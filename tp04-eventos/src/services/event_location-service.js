@@ -30,4 +30,10 @@ export default class EventLocationService {
         const updated = await repo.updateEventLocation(entity);
         return updated;
     }
+
+    deleteByIdAsync = async (id) => {
+        const repo = new EventLocationRepository();
+        const deleted = repo.deleteByIdAsync(id);
+        return deleted;
+    }
 }
