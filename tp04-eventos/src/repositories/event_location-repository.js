@@ -1,7 +1,8 @@
 import DBHelper from '../helpers/database-helper.js';
 const dbh = new DBHelper();
 
-export default class EventLocationRepository {
+export default class EventLocationRepository 
+{
 
     getAllAsync = async () =>
     {
@@ -24,5 +25,13 @@ export default class EventLocationRepository {
         [entity.id_location, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, 
         entity.id_creator_user])
         return created;
+    }
+    
+    updateEventLocation = async(entity) => {
+        console.log(entity);
+        let updated = await dbh.requestOne(`UPDATE public.event_locations 
+        SET id_location = $1, name = $2, full_address = $3, max_capacity = $4, latitude = $5, longitude = $6, id_creator_user = $7  WHERE id = $8 `,
+        [entity.name, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, entity.id_creator_user]);
+        return updated;
     }
 }

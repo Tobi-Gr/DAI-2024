@@ -31,8 +31,27 @@ router.get('/:id', mw.AuthMiddleware, async (req, res) => {
 });
 
 router.post('', mw.AuthMiddleware, async (req, res) => {
-  
+    try {
+        let createdEntity;
+        const returnEventLocation = await svc.getByIdLocationAsync(req.body.id_location);
+        console.log(returnEventLocation);
+        if (req.body.name == null || req.body.name.length < 3 || req.body.full_address == null || req.body.full_address.length < 3)
+            respuesta = res.status(400).send("Bad request, nombre y dirección tienen que tener más de tres caracteres");
+        if (v.isANumber(req.body.id_location))
+        {
+            if(returnEventLocation[0].id_location != req.body.id_location)
+                respuesta = res.status(400).send("Bad request, id_location no existe en el contexto actual");
+        }
+        if(req.body.max_assistance > returnEventLocation[0].max_assistance) 
+            respuesta = res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");   
+        else
+            createdEntity = await svc.createEventLocation(req.body);
+            return res.status(200).send("Evento creado.");
+            
+    } catch (error) {
+        console.error(error);
+        return res.status(500).send("Error interno.");
+    }
 });
-
 
 export default router;

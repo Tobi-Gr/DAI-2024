@@ -24,4 +24,10 @@ export default class EventLocationService {
         const created = await repo.createEventLocation(entity);
         return created;
     }
+
+    updateEventLocation = async (entity) => {
+        const repo = new EventLocationRepository();
+        const updated = await repo.updateEventLocation(entity);
+        return updated;
+    }
 }
