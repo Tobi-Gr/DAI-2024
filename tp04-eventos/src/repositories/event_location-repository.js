@@ -24,14 +24,25 @@ export default class EventLocationRepository
         return created;
     }
     
+    // updateEventLocation = async(entity) => {
+    //      let updated = dbh.requestOne(`UPDATE public.event_locations 
+    //      SET id_location = $1, name = $2, full_address = $3, max_capacity = $4, latitude = $5, longitude = $6, id_creator_user = $7  WHERE id = $8 `,
+    //      [entity.id_location, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, entity.id_creator_user, entity.id]);
+    //      return updated;
+    //  }
+
+     
     updateEventLocation = async(entity) => {
-        let updated = await dbh.requestOne(`UPDATE public.event_locations 
-        SET id_location = $1, name = $2, full_address = $3, max_capacity = $4, latitude = $5, longitude = $6, id_creator_user = $7  WHERE id = $8 `,
-        [entity.name, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, entity.id_creator_user]);
+        let updated = await dbh.requestOne(`
+            UPDATE public.event_locations 
+            SET id_location = $1, name = $2, full_address = $3, max_capacity = $4, latitude = $5, longitude = $6, id_creator_user = $7  
+            WHERE id = $8`,
+            [entity.id_location, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, entity.id_creator_user, entity.id]);
+
         return updated;
     }
 
     deleteByIdAsync = async (id) => {
-        return dbh.requestOne('DELETE FROM public.event_location WHERE id = $1', [id])
+        return dbh.requestOne('DELETE FROM public.event_locations WHERE id = $1', [id])
     }
 }
