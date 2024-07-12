@@ -23,15 +23,7 @@ export default class EventLocationRepository
         entity.id_creator_user])
         return created;
     }
-    
-    // updateEventLocation = async(entity) => {
-    //      let updated = dbh.requestOne(`UPDATE public.event_locations 
-    //      SET id_location = $1, name = $2, full_address = $3, max_capacity = $4, latitude = $5, longitude = $6, id_creator_user = $7  WHERE id = $8 `,
-    //      [entity.id_location, entity.name, entity.full_address, entity.max_capacity, entity.latitude, entity.longitude, entity.id_creator_user, entity.id]);
-    //      return updated;
-    //  }
-
-     
+         
     updateEventLocation = async(entity) => {
         let updated = await dbh.requestOne(`
             UPDATE public.event_locations 

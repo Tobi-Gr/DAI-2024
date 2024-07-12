@@ -123,15 +123,45 @@ export default class EventRepository {
         return event;
     }
     
+    // createEvent = async (entity) => {
+    //     let created = await dbh.requestOne(`
+    //     INSERT INTO public.events(name, description, id_event_category, id_event_location, start_date, 
+    //                                 duration_in_minutes, price, enabled_for_enrollment, max_assistance, id_creator_user)
+    //     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+    //     [entity.name, entity.description, entity.id_event_category, entity.id_event_location, entity.start_date, 
+    //         entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment, entity.max_assistance, 
+    //         entity.id_creator_user])
+    //     return created;
+    // }
+
     createEvent = async (entity) => {
+        // verifica si los IDs de categoría y ubicación existen
+        const categoryExists = await dbh.requestOne(
+            `SELECT 1 FROM public.event_categories WHERE id = $1`, [entity.id_event_category]);
+        
+        const locationExists = await dbh.requestOne(
+            `SELECT 1 FROM public.event_locations WHERE id = $1`, [entity.id_event_location]);
+            console.log(entity.id_event_location);
+        // Si no existen, podrías lanzar un error o manejar la situación según tu lógica de negocio
+        if (!categoryExists) {
+            throw new Error(`La categoría con id ${entity.id_event_category} no existe.`);
+        }
+        
+        if (!locationExists) {
+            throw new Error(`La ubicación con id ${entity.id_event_location} no existe.`);
+        }
+    
+        // Si ambos existen, procede con la inserción en la tabla events
         let created = await dbh.requestOne(`
-        INSERT INTO public.events(name, description, id_event_category, id_event_location, start_date, 
-                                    duration_in_minutes, price, enabled_for_enrollment, max_assistance, id_creator_user)
-        VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-        [entity.name, entity.description, entity.id_event_category, entity.id_event_location, entity.start_date, 
-            entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment, entity.max_assistance, 
-            entity.id_creator_user])
+            INSERT INTO public.events(name, description, id_event_category, id_event_location, start_date, 
+                                      duration_in_minutes, price, enabled_for_enrollment, max_assistance, id_creator_user)
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            RETURNING *`,
+            [entity.name, entity.description, entity.id_event_category, entity.id_event_location, entity.start_date, 
+             entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment, entity.max_assistance, 
+             entity.id_creator_user]);
+        
         return created;
     }
     
-    }
+}

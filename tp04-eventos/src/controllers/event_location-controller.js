@@ -59,21 +59,13 @@ router.put('', mw.AuthMiddleware, async(req, res) => {
         if (!req.body.id) {
             return res.status(400).send("Bad request, id de la locación no existe en el contexto actual");
         }
-        console.log('pasa primer if');
-
         if (req.body.name == null || req.body.name.length < 3 || req.body.full_address == null || req.body.full_address.length < 3) {
             return res.status(400).send("Bad request, nombre y dirección tienen que tener más de tres caracteres");
         }
-        console.log('pasa segundo if');
-
         if (req.body.max_capacity > eventLocation.max_capacity) {
             return res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");
         }
-
-        console.log('pasa tercer if');
-        console.log(req.body);
-        let updatedEntity = await svc.updateEventLocation(req.body); //queda nulo :((
-        console.log(updatedEntity);
+        let updatedEntity = await svc.updateEventLocation(req.body);
         return res.status(200).send("Información de la locación del evento actualizada.");
 
     } catch(error) {

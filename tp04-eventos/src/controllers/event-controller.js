@@ -69,18 +69,46 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('', am.AuthMiddleware, async (req, res) => {
+    try {
+        const eventLocation = await svc_el.getByIdAsync(req.body.id_event_location);
+        
+        if (!req.body.id_event_location) {
+            return res.status(400).send("Bad request, id de la locación no existe en el contexto actual");
+        }
 
-    let eventLocation = await svc_el.getByIdAsync(req.id);
-    if (req.body.name.length < 3 || req.body.description.length < 3)
-        return res.status(400).send("Bad request, nombre y descripción tienen que tener más de tres caracteres");
-    if (req.body.price < 0 || req.body.duration_in_minutes < 0)
-        return res.status(400).send("Bad request, el precio y la duración en minutos tienen que ser mayores o iguales a cero");
-    if(req.body.max_capacity > eventLocation.max_capacity)
-        return res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");   
-    
+        if (req.body.name == null || req.body.name.length < 3 || eventLocation.full_address == null || eventLocation.full_address.length < 3) {
+            return res.status(400).send("Bad request, nombre y dirección tienen que tener más de tres caracteres");
+        }
+
+        if (req.body.max_assistance > eventLocation.max_capacity) {
+            return res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");
+        }
+
+        if(req.body.price < 0 || req.body.duration_in_minutes < 0){
+            return res.status(400).send("Bad request, la duración del evento o el precio son menores que 0");
+        }
+        let createdEntity = await svc.createEvent(req.body);
         return res.status(200).send("Evento creado.");
+    } catch(error) {
+        console.error(error);
+        return res.status(500).send("Error en la creación");
+    }
 });
 
+router.delete('/:id', am.AuthMiddleware, async (req, res) => {
+    let respuesta, deleted;
+    if (v.isANumber(req.params.id)) {
+        try {
+            deleted = await svc.deleteByIdAsync(req.params.id);
+            respuesta = res.status(200).send("Ok.");
+        } catch (error) {
+            respuesta = res.status(500).send(error.message);
+        }
+    } else {
+        respuesta = res.status(400).send(`Datos inválidos.`);
+    }
+    return deleted;
+})
 //no estamos usando el validator, pero lo importamos por alguna razón
 
 export default router;
