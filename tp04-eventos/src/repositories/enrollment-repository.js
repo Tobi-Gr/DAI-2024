@@ -19,7 +19,7 @@ export default class EnrollmentRepository {
         return dbh.requestOne(query, values);
     }
 
-    getByUserId = async (id_user, id_event) => {
+    getByUserIdAndEventId = async (id_user, id_event) => {
         let query = 'SELECT * FROM public.event_enrollments WHERE id_user = $1 AND id_event = $2';
         let values = [id_user, id_event];
         return dbh.requestOne(query, values);

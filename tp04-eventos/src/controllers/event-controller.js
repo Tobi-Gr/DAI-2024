@@ -33,7 +33,7 @@ router.get('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
         return res.status(400).send("El evento no está disponible para registros.");
     }    
     const user = await svc_user.getByUsernameAsync(req.user.username);
-    const registered = await svc_enrollment.getByIdUser(user.id);
+    const registered = await svc_enrollment.getByUserIdAndEventId(user.id, req.params.id);
     if(registered)
     {
         return res.status(400).send("Ya estás registrado para este evento.");
