@@ -13,7 +13,7 @@ export default class EnrollmentService {
     }
 
     getByIdUser = async (id_user) => {
-        const registration = await repo.countEnrolledAsync(id_user);
+        const registration = await repo.getByUserId(id_user);
         return registration;
     }
 }

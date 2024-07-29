@@ -16,13 +16,13 @@ export default class EnrollmentRepository {
     countEnrolledAsync = async (id_event) =>{
         let query = 'SELECT COUNT(*) FROM public.event_enrollments WHERE id_event = $1';
         let values = [id_event];
-        return requestOne(query, values);
+        return dbh.requestOne(query, values);
     }
 
-    getByUserId = async (id_user) => {
-        let query = 'SELECT * FROM public.event_enrollments WHERE id_user = $1';
-        let values = [id_user];
-        return requestOne(query, values);
+    getByUserId = async (id_user, id_event) => {
+        let query = 'SELECT * FROM public.event_enrollments WHERE id_user = $1 AND id_event = $2';
+        let values = [id_user, id_event];
+        return dbh.requestOne(query, values);
     }
 
     deleteByIdAsync = async (id) => //Id del del enrollment
