@@ -6,10 +6,10 @@ export default class EnrollmentRepository {
     createAsync = async (entity) =>
     {
         let sql = `INSERT INTO public.event_enrollments(id_event, id_user, description, registration_date_time, attended, observations, rating)
-                        VALUES($1, $2, $3, $4, $5, $6, $7)`;
+                        VALUES($1, $2, $3, $4, B'0', null, null)`;
         let registration_d_t = new Date();        
-        let values = [entity.id_event, entity.id_user, entity.description, registration_d_t, false, null, null];
-        return dbh.requestOne(sql, values)? true : false;
+        let values = [entity.id_event, entity.id_user, entity.description, registration_d_t];
+        return dbh.requestOne(sql, values);
     }
 
     //devuelve la cantidad de gente anotada para un evento
