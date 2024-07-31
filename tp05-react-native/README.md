@@ -1,0 +1,1 @@
+Info de AsyncStorage: https://reactnative.dev/docs/asyncstorage

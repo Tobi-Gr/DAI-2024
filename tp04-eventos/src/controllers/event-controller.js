@@ -15,12 +15,13 @@ const svc_user = new UserService();
 
 
 router.get('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
-    if(!v.isANumber(req.params.id))
+    let idEvent = req.params.id;
+    if(!v.isANumber(idEvent))
         return res.status(400).send("Id tiene que ser un número.");
     
-    let event = await svc.getById(req.params.id);    
-    let enrolled = await svc_enrollment.countEnrolledAsync(req.params.id);
-    if(enrolled + 1 > event.max_assistance)
+    let event = await svc.getById(idEvent);
+    let enrolled = await svc_enrollment.countEnrolledAsync(idEvent);
+    if(enrolled == event.max_assistance)
     {
         return res.status(400).send("Superás la cantidad máxima de registros.");
     }
@@ -33,10 +34,10 @@ router.get('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
         return res.status(400).send("El evento no está disponible para registros.");
     }    
     const user = await svc_user.getByUsernameAsync(req.user.username);
-    const registered = await svc_enrollment.getByUserIdAndEventId(user.id, req.params.id);
+    const registered = await svc_enrollment.getByUserIdAndEventId(user.id, idEvent);
     if(registered)
     {
-        return res.status(400).send("Ya estás registrado para este evento.");
+        return res.status(400).send("Ya te registraste para este evento antes.");
     }
 
     svc_enrollment.createAsync({

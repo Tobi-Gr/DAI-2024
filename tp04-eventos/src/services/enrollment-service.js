@@ -4,6 +4,7 @@ const repo = new EnrollmentRepository();
 export default class EnrollmentService {
     createAsync = async (entity) => {
         const created = await repo.createAsync(entity);
+        console.log("Enrollment: ", created);
         return created;
     }
 
