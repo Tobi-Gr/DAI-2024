@@ -1,70 +1,35 @@
 //Link copado para el estilo: https://codesandbox.io/s/react-todo-list-app-ijmut?from-embed
 import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TextInput, View, Image, Modal, TouchableOpacity } from 'react-native';
-import Boton from './src/components/Boton'; // Asegúrate de que la ruta sea correcta
+import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Button } from 'react-native';
+import Boton from './src/components/Boton';
+import ModalAgregarTarea from './src/components/Modal';
 
 export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   // Estado para manejar el texto de la tarea
   const [[descripcion, tarea], setTarea] = useState('');
+  const [lista, setLista] = useState([]);
+
+  const AgregarTarea = itemAAnadir => {
+    setList([...lista, itemAAnadir]);
+  };
 
   // Función para abrir el modal
-  const agregarTarea = () => {
+  const abrirModal = () => {
     setModalVisible(true);
-  }
-
-  // Función para cerrar el modal
-  const cerrarModal = () => {
-    setModalVisible(false);
-    // agregar la lógica para guardar la tarea
-    console.log('Tarea agregada:', tarea); 
   }
   
   return (
     <View style={styles.container}>
       <Text>Te damos la bienvenida a tu propia To-Do List :D</Text>
-      <br/>
-      <Image
+      <ModalAgregarTarea visible={modalVisible} setVisible={setModalVisible} lista={lista} setLista={setLista}/>
+      {/* <Image
         source={'./assets/toDoList.png'}
         style={styles.image} 
-      />
-      <Boton texto="Agregar tarea" onClick={agregarTarea} />
-      <StatusBar style="auto" />
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Agregar nueva tarea</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Escribe la tarea aquí"
-            value={tarea}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Escribe una breve descripción"
-            value={descripcion}
-          />
-          <TouchableOpacity
-            style={styles.button}
-            onPress={cerrarModal}
-          >
-            <Text style={styles.buttonText} onPress={setTarea} >Agregar Tarea
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setModalVisible(false)}
-          >
-            <Text style={styles.buttonText}>Cerrar</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
+      /> */}
+      <Button onPress={abrirModal} title="aaaaaa"><Text>modal</Text></Button>
+      {/* <Boton texto="Agregar tarea" onPress={() => console.log("abrir modal")} /> */}
+      
     </View>
     
   );
@@ -83,7 +48,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 100,
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
