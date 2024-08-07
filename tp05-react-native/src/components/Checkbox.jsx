@@ -1,12 +1,9 @@
 import React, { Fragment } from "react";
-
 import "../styles/Checkbox.scss";
 
-export default function Checkbox(props) {
-  const {
-    onChange,
-    data: { id, description, done }
-  } = props;
+export default function Checkbox({ onChange, data }) {
+  const { id, tarea, descripcion, terminado } = data;
+
   return (
     <Fragment>
       <label className="todo new-item">
@@ -14,7 +11,7 @@ export default function Checkbox(props) {
           className="todo__state"
           name={id}
           type="checkbox"
-          defaultChecked={done}
+          defaultChecked={terminado}
           onChange={onChange}
         />
         <svg
@@ -28,7 +25,7 @@ export default function Checkbox(props) {
           <use xlinkHref="#todo__check" className="todo__check" />
           <use xlinkHref="#todo__circle" className="todo__circle" />
         </svg>
-        <div className="todo__text">{description}</div>
+        <div className="todo__text">{tarea}: {descripcion}</div>
       </label>
     </Fragment>
   );
