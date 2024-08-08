@@ -20,7 +20,8 @@
     "react-native-paper": "^5.12.5",
     "react-native-svg": "^15.5.0",
     "react-native-web": "~0.19.10",
-    "sass": "^1.77.8"
+    "sass": "^1.77.8",
+    "@react-native-async-storage/async-storage": "1.23.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
