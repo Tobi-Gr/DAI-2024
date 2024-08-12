@@ -6,6 +6,9 @@ const CustomTextInput = ({ placeholder }) => {
         <TextInput
           style={styles.input}
           placeholder={placeholder}
+        // value={value}
+        // onChangeText={setValue}
+        // hay q pasarle value y setValue por props
         />
     );
 };
