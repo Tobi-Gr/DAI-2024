@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import CustomTextInput from './components/textInput'
-import { NavigationContainer } from '@react-navigation/native';
 import Boton from './components/Boton'
 import Title from './components/Title';
 
