@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import CustomTextInput from './components/textInput'
-import Boton from './components/Boton'
-import Title from './components/Title';
+import CustomTextInput from '../components/textInput'
+import Boton from '../components/Boton'
+import Title from '../components/Title';
 
-export default function App() {
+export default function Login() {
   return (
     <View style={styles.container}>
         <Title text={"Inicio sesión"} />
         <View style={styles.inputContainer}>
-            <CustomTextInput placeholder="Usuario" />
-            <CustomTextInput placeholder="Contraseña" />
+            <CustomTextInput placeholder={"Usuario"} />
+            <CustomTextInput placeholder={"Contraseña"} />
         </View>
         <Boton text={"Iniciar sesión"}/>
     </View>

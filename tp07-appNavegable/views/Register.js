@@ -1,17 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
-import CustomTextInput from './components/TextInput';
-import Boton from './components/Boton';
-import Title from './components/Title';
+import CustomTextInput from '../components/textInput';
+import Boton from '../components/Boton';
+import Title from '../components/Title';
 
-export default function App() {
+export default function Register() {
   return (
     <View style={styles.container}>
         <Title text={"Registrate"}/>
         <View style={styles.inputContainer}>
-            <CustomTextInput placeholder="Nombre" />
-            <CustomTextInput placeholder="Apellido" />
-            <CustomTextInput placeholder="Usuario" />
-            <CustomTextInput placeholder="Contraseña" />
+            <CustomTextInput placeholder={"Nombre"} />
+            <CustomTextInput placeholder={"Apellido"} />
+            <CustomTextInput placeholder={"Usuario"} />
+            <CustomTextInput placeholder={"Contraseña"} />
         </View>
         <Boton text={"Registrate"}/>
     </View>
