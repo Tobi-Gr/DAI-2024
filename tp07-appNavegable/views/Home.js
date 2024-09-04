@@ -7,7 +7,7 @@ import React from 'react';
 export default function Home({ route }) {
     const navigation = useNavigation();
     const { nombre = '', apellido = '' } = route.params || {};
-    const saludo = "Hola " + nombre + " " + apellido + "!";
+    const saludo = "Hola! Un gusto tenerte en nuestra aplicación";
 
     return (
         <View style={styles.container}>

@@ -2,9 +2,9 @@ import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/textInput';
 import { StyleSheet, View } from 'react-native';
 import { loginUser } from '../authService';
+import React, {useState} from 'react';
 import Title from '../components/Title';
 import Boton from '../components/Boton';
-import React from 'react';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -26,9 +26,8 @@ export default function Login() {
         <View style={styles.inputContainer}>
             <CustomTextInput placeholder="Usuario" value={username} onChangeText={setUsername} style={styles.inputContainer} />
             <CustomTextInput placeholder="Contraseña" value={contrasena} onChangeText={setContrasena} secureTextEntry style={styles.inputContainer} />
-            <Button title="Iniciar Sesión" onPress={handleLogin} />
+            <Boton text="Iniciar Sesión" onPress={handleLogin} />
         </View>
-        <Boton text={"Iniciar sesión"}/>
     </View>
   );
 }

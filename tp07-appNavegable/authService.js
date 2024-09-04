@@ -2,7 +2,7 @@ import { api } from './api';
 
 export const registerUser = async (userData) => {
   try {
-    const response = await api.post('/user/register', userData);
+    const response = await api.post('user/register', userData);
     return response.data;
   } catch (error) {
     console.error('Error en el registro: ', error);
@@ -12,7 +12,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await api.post('/user/login', credentials);
+    const response = await api.post('user/login', credentials);
     return response.data;
   } catch (error) {
     console.error('Error en el login:', error);
