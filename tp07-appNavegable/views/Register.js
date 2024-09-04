@@ -1,23 +1,37 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/textInput';
+import { StyleSheet, Text, View } from 'react-native';
+import { registerUser } from '../authService';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
 
 export default function Register() {
-  return (
-    <View style={styles.container}>
+    const [nombre, setNombre] = useState('');
+    const [apellido, setApellido] = useState('');
+    const [username, setUsername] = useState('');
+    const [contrasena, setContrasena] = useState('');
+    const navigation = useNavigation();
+  
+    const handleRegister = async () => {
+      try {
+        const userData = { nombre, apellido, username, contrasena };
+        await registerUser(userData);
+        navigation.navigate('Login');
+      } catch (error) {
+        alert('Error al registrar');
+      }
+    }
+    return (
+      <View style={styles.container}>
         <Title text={"Registrate"}/>
-        <View style={styles.inputContainer}>
-            <CustomTextInput placeholder={"Nombre"} />
-            <CustomTextInput placeholder={"Apellido"} />
-            <CustomTextInput placeholder={"Usuario"} />
-            <CustomTextInput placeholder={"Contraseña"} />
-        </View>
-        <Boton text={"Registrate"}/>
-    </View>
-  );
-}
-
+        <CustomTextInput placeholder="Nombre" value={nombre} onChangeText={setNombre} style={styles.inputContainer} />
+        <CustomTextInput placeholder="Apellido" value={apellido} onChangeText={setApellido} style={styles.inputContainer} />
+        <CustomTextInput placeholder="Usuario" value={username} onChangeText={setUsername} style={styles.inputContainer} />
+        <CustomTextInput placeholder="Contraseña" value={contrasena} onChangeText={setContrasena} secureTextEntry style={styles.inputContainer} />
+        <Boton title="Registrarse" onPress={handleRegister} />
+      </View>
+    );
+  }
 const styles = StyleSheet.create({
   container: {
     flex: 1,

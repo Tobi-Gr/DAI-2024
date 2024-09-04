@@ -1,34 +1,32 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import CustomTextInput from '../components/textInput';
 import { StyleSheet, View } from 'react-native';
-import CustomTextInput from '../components/textInput'
-import Boton from '../components/Boton'
+import { loginUser } from '../authService';
 import Title from '../components/Title';
+import Boton from '../components/Boton';
+import React from 'react';
 
-const UrlApi = '/api/user/login';
 export default function Login() {
-  const fetchLogin = async () => {
+  const [username, setUsername] = useState('');
+  const [contrasena, setContrasena] = useState('');
+  const navigation = useNavigation(); 
+
+  const handleLogin = async () => {
     try {
-      const response = await fetch(UrlApi);
-      if(!response.ok){
-        throw new error('Failed to fetch data');
-      }
-      const data = await response.json();
-      if(!data){
-        throw new Error('Data failed to response')
-      }
-      console.log('data: ', data);
-      return data;
+      const credentials = { username, contrasena };
+      const user = await loginUser(credentials);
+      navigation.navigate('Home', { nombre: user.nombre, apellido: user.apellido});
+    } catch (error) {
+      alert('Error al iniciar sesión');
     }
-    catch(error){
-      console.log('Hubo un error en el fetchLogin')
-    }
-  }
+  };
   return (
     <View style={styles.container}>
         <Title text={"Inicio sesión"} />
         <View style={styles.inputContainer}>
-            <CustomTextInput placeholder={"Usuario"} />
-            <CustomTextInput placeholder={"Contraseña"} />
+            <CustomTextInput placeholder="Usuario" value={username} onChangeText={setUsername} style={styles.inputContainer} />
+            <CustomTextInput placeholder="Contraseña" value={contrasena} onChangeText={setContrasena} secureTextEntry style={styles.inputContainer} />
+            <Button title="Iniciar Sesión" onPress={handleLogin} />
         </View>
         <Boton text={"Iniciar sesión"}/>
     </View>

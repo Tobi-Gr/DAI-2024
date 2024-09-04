@@ -1,13 +1,12 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Text } from 'react-native';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
+import React from 'react';
 
-export default function Home() {
+export default function Home({ route }) {
     const navigation = useNavigation();
-    const nombre = "Tobi";
-    const apellido = "Granovsky";
+    const { nombre = '', apellido = '' } = route.params || {};
     const saludo = "Hola " + nombre + " " + apellido + "!";
 
     return (
