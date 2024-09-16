@@ -16,6 +16,8 @@ export default function Login() {
       const credentials = { username, contrasena };
       const user = await loginUser(credentials);
       navigation.navigate('Home', { nombre: user.nombre, apellido: user.apellido});
+      console.log("user: ", user);
+      console.log("credentials: ", credentials);
     } catch (error) {
       alert('Error al iniciar sesión');
     }
@@ -36,7 +38,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         background: "#F8F9FD",
-        width: '100%',
         backgroundColor: 'white',  
         borderWidth: 0,
         borderRadius: 20,  

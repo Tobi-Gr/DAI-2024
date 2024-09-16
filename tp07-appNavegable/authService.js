@@ -1,4 +1,5 @@
 import { api } from './api';
+import axios from 'axios';
 
 export const registerUser = async (userData) => {
   try {
@@ -19,3 +20,5 @@ export const loginUser = async (credentials) => {
     throw error;
   }
 };
+
+// axios.post("http://localhost:5000", credentials)

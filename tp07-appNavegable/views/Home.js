@@ -21,6 +21,7 @@ export default function Home({ route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
         backgroundColor: 'white',  
         width: '100%',
         borderWidth: 0,

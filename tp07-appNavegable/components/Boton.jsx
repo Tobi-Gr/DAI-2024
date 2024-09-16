@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
+        width: '80%'
     },
     button: {
         width: '80%', 
