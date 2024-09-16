@@ -11,7 +11,7 @@ export default function Login() {
   const [contrasena, setContrasena] = useState('');
   const navigation = useNavigation(); 
 
-  const handleLogin = async () => {
+  const handleLogin = async () => { //error está acá, las credentials dan null
     try {
       const credentials = { username, contrasena };
       const user = await loginUser(credentials);
