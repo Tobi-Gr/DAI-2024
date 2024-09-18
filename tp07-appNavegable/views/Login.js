@@ -11,15 +11,20 @@ export default function Login() {
   const [contrasena, setContrasena] = useState('');
   const navigation = useNavigation(); 
 
-  const handleLogin = async () => { //error está acá, las credentials dan null
+  const handleLogin = async () => {
+    if (!username || !contrasena) {
+      alert('Por favor, completa todos los campos');
+      return;
+    }
     try {
       const credentials = { username, contrasena };
       const user = await loginUser(credentials);
-      navigation.navigate('Home', { nombre: user.nombre, apellido: user.apellido});
-      console.log("user: ", user);
-      console.log("credentials: ", credentials);
+      navigation.navigate('Index', { nombre: user.username});
+      console.log("username:", username);
+      console.log("contrasena:", contrasena);
     } catch (error) {
       alert('Error al iniciar sesión');
+      console.error('Error en el login:', error);
     }
   };
   return (

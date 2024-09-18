@@ -4,9 +4,8 @@ import Boton from '../components/Boton';
 import Title from '../components/Title';
 import React from 'react';
 
-export default function Home({ route }) {
+export default function Home() {
     const navigation = useNavigation();
-    const { nombre = '', apellido = '' } = route.params || {};
     const saludo = "Hola! Un gusto tenerte en nuestra aplicación";
 
     return (
