@@ -10,9 +10,12 @@ class AutenticationMiddleware {
     }
 
     AuthMiddleware = async (req, res, next) => {
-        let authHeader = req.headers.authorization;
+        let authHeader =  req.headers['authorization'];;
         let payload;
         let authService;
+        console.log('authHeader:', authHeader);
+        console.log('payload: ', payload);
+        console.log('authService: ', authService);
         if(!authHeader) {
             res.status(401).send('401 Unauthorized, no iniciaste sesión.');
         } else {
