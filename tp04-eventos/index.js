@@ -8,7 +8,7 @@ import LocationRouter from "./src/controllers/location-controller.js";
 import CategoryRouter from "./src/controllers/category-controller.js";
 
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(cors());
 app.use(express.json());
