@@ -12,7 +12,6 @@ export const registerUser = async (userData) => {
 };
 
 export const loginUser = async (credentials) => {
-
   try {
     const response = await api.post('user/login', credentials);
     return response.data;
@@ -21,5 +20,16 @@ export const loginUser = async (credentials) => {
     throw error;
   }
 };
+
+export const getEventos = async() => {
+  try {
+    const response = await api.post('event');
+    console.log(response.data)
+    return response.data;
+  } catch (error) {
+    console.error('Error en el fetch de los eventos:', error);
+    throw error;
+  }
+}
 
 // axios.post("http://localhost:5000", credentials)
