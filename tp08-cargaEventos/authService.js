@@ -21,9 +21,29 @@ export const loginUser = async (credentials) => {
   }
 };
 
-export const getEventos = async() => {
+export const getCategories = async () => {
   try {
-    const response = await api.post('event');
+    const response = await api.get('category/');
+    return response.data;
+  } catch (error) {
+    console.error('Error en la carga de categorías:', error);
+    throw error;
+  }
+};
+
+export const getLocations = async (credentials) => {
+  try {
+    const response = await api.get('event-location/', credentials);
+    return response.data;
+  } catch (error) {
+    console.error('Error en la carga de localidades:', error);
+    throw error;
+  }
+};
+
+export const getEventos = async(credentials) => {
+  try {
+    const response = await api.get('event', credentials);
     console.log(response.data)
     return response.data;
   } catch (error) {

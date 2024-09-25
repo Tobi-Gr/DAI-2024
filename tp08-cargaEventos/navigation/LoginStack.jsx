@@ -8,7 +8,7 @@ import Formulario from '../views/Formulario';
 const LoginNavigation = () => {
     const LoginStack = createNativeStackNavigator();
     return (
-      <LoginStack.Navigator>
+      <LoginStack.Navigator screenOptions={{ headerShown: false }}>
         <LoginStack.Screen name="Home" component={Home}/>
         <LoginStack.Screen name="Login" component={Login}/>
         <LoginStack.Screen name="Register" component={Register}/>

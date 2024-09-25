@@ -7,13 +7,14 @@ import { getEventos } from '../authService';
 export default function Index() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { nombre } = route.params; // Asegúrate de que 'nombre' está definido en tus rutas
+    const { nombre } = route.params; // pones el nombre de variable definido en tus rutas
+    const { token } = route.params;
     const [eventos, setEventos] = useState([]);
 
     useEffect(() => {
         const fetchEventos = async () => {
             try {
-                const data = await getEventos();
+                const data = await getEventos(token);
                 console.log(data);
                 setEventos(data);
             } catch (error) {
@@ -33,8 +34,8 @@ export default function Index() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle}>{item.titulo}</Text>
-                        <Text>{item.fecha}</Text>
+                        <Text style={styles.eventTitle}>{item.name}</Text>
+                        <Text>{item.start_date}</Text>
                     </View>
                 )}
                 contentContainerStyle={styles.listContainer}

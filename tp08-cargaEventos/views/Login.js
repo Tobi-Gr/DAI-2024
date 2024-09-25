@@ -19,7 +19,7 @@ export default function Login() {
     try {
       const credentials = { username, contrasena };
       const user = await loginUser(credentials);
-      navigation.navigate('Index', { nombre: user.username});
+      navigation.navigate('Index', { nombre: user.username, token: user.token});
       console.log("username:", username);
       console.log("contrasena:", contrasena);
     } catch (error) {
