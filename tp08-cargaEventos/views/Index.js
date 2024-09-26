@@ -15,7 +15,8 @@ export default function Index() {
         const fetchEventos = async () => {
             try {
                 const data = await getEventos(token);
-                console.log(data);
+                console.log('token: ', token);
+                console.log('eventos: \n', data);
                 setEventos(data);
             } catch (error) {
                 console.error('Error al cargar los eventos:', error);
@@ -40,7 +41,7 @@ export default function Index() {
                 )}
                 contentContainerStyle={styles.listContainer}
             />
-            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario')} />
+            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token})} />
         </View>
     );
 }

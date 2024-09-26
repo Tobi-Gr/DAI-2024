@@ -1,8 +1,8 @@
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text } from 'react-native';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomTextInput from '../components/textInput';
 import NumberInput from '../components/numberInput'
 import { getCategories, getLocations } from '../authService';
@@ -22,36 +22,42 @@ import { getCategories, getLocations } from '../authService';
 
 export default function Formulario() {
     const navigation = useNavigation();
+    
     const { nombre, setNombre } = useState("");
     const { descripcion, setDescripcion } = useState("");
     const { duracion, setDuracion } = useState("");
     const { precio, setPrecio } = useState("");
     const { asistenciaMax, setAsistenciaMax } = useState("");
 
-    const { categories, setCategories } = useState([]);
-    const { locations, setLocations } = useState([]);
+    const [categories, setCategories ] = useState([]);
+    const [locations, setLocations]  = useState([]);
+
+    const route = useRoute();
+    const { token } = route.params;
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const data = await getCategories();
-                console.log(data);
+                const data = await getCategories(token);
+                console.log('token', token)
+                console.log('categorías: \n', data);
                 setCategories(data);
             } catch (error) {
-                console.error('Error al cargar las categorías:', error);
+                console.error('(UseEffect) Error al cargar las categorías:', error);
             }
         };
         const fetchLocations = async () => {
             try {
-                const data = await getLocations();
-                console.log(data);
+                const data = await getLocations(token);
+                console.log('token ', token)
+                console.log('locaciones: \n', data);
                 setLocations(data);
             } catch (error) {
-                console.error('Error al cargar las categorías:', error);
+                console.error('(UseEffect) Error al cargar las localidades:', error);
             }
         };
-        fetchLocations();
         fetchCategories();
+        fetchLocations();
     }, []);
 
 
@@ -73,24 +79,24 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5', // Fondo claro
+        backgroundColor: '#f5f5f5',
         padding: 20,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        color: '#333', // Color del texto del título
+        color: '#333', 
         marginBottom: 20,
     },
     boton: {
-        backgroundColor: '#4CAF50', // Color verde para el botón
+        backgroundColor: '#4CAF50', 
         paddingVertical: 15,
         paddingHorizontal: 30,
         borderRadius: 5,
-        elevation: 3, // Sombra para el botón
+        elevation: 3, 
     },
     botonText: {
-        color: '#fff', // Color del texto del botón
+        color: '#fff',
         fontSize: 18,
         textAlign: 'center',
     },

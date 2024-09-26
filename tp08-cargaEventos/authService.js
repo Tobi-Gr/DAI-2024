@@ -1,5 +1,4 @@
 import { api } from './api';
-import axios from 'axios';
 
 export const registerUser = async (userData) => {
   try {
@@ -21,9 +20,9 @@ export const loginUser = async (credentials) => {
   }
 };
 
-export const getCategories = async () => {
+export const getCategories = async (credentials) => {
   try {
-    const response = await api.get('category/');
+    const response = await api.get('category/', credentials);
     return response.data;
   } catch (error) {
     console.error('Error en la carga de categorías:', error);
@@ -44,7 +43,6 @@ export const getLocations = async (credentials) => {
 export const getEventos = async(credentials) => {
   try {
     const response = await api.get('event', credentials);
-    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error('Error en el fetch de los eventos:', error);
