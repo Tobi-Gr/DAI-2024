@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown'
 
 const Select = ({ data, placeholder }) => {  

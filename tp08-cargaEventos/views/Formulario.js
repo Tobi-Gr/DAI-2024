@@ -1,24 +1,14 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
 import React, { useState, useEffect } from 'react';
 import CustomTextInput from '../components/textInput';
-import NumberInput from '../components/numberInput'
+import NumberInput from '../components/numberInput';
+import { Dropdown } from 'react-native-element-dropdown';
 import { getCategories, getLocations } from '../authService';
+import Select from '../components/Select';
 
-/*
-   X "name": str,
-   X "description": str,
-   "id_event_category": int,
-   "id_event_location": int,
-   "start_date": datetime,
-   X "duration_in_minutes": int,
-   X  "price": int,
-   "enabled_for_enrollment": bool,
-   X "max_assistance": int,
-   "id_creator_user": int, // pasa automatico
-*/
 
 export default function Formulario() {
     const navigation = useNavigation();
@@ -28,12 +18,21 @@ export default function Formulario() {
     const { duracion, setDuracion } = useState("");
     const { precio, setPrecio } = useState("");
     const { asistenciaMax, setAsistenciaMax } = useState("");
-
+    
     const [categories, setCategories ] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [locations, setLocations]  = useState([]);
-
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    
     const route = useRoute();
     const { token } = route.params;
+
+    const renderItem = (item) => (
+        <View style={styles.item}>
+        <Text style={styles.itemText}>{item.name}</Text>
+        <Text style={styles.itemDate}>{item.start_date}</Text>
+        </View>
+    );
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -58,9 +57,8 @@ export default function Formulario() {
         };
         fetchCategories();
         fetchLocations();
-    }, []);
-
-
+    }, [token]);
+    
     return (
         <View style={styles.container}>
             <Title text="Crear un nuevo evento" />
@@ -69,6 +67,30 @@ export default function Formulario() {
             <NumberInput placeholder="Duración en minutos" value={duracion} onChange={setDuracion}/>
             <NumberInput placeholder="Precio" value={precio} onChange={setPrecio}/>
             <NumberInput placeholder="Asistencia máxima" value={asistenciaMax} onChange={setAsistenciaMax}/>
+            <Dropdown
+                data={categories}
+                labelField="name"
+                valueField="id"
+                placeholder="Select an item"
+                value={selectedCategory}
+                onChange={(item) => {
+                    setSelectedCategory(item.id);
+                }}
+                containerStyle={styles.dropdownContainer}
+                renderItem={(item) => renderItem(item)}
+            />
+            <Dropdown
+                data={locations}
+                labelField="name"
+                valueField="id"
+                placeholder="Select an item"
+                value={selectedLocation}
+                onChange={(item) => {
+                    setSelectedLocation(item.id);
+                }}
+                containerStyle={styles.dropdownContainer}
+                renderItem={(item) => renderItem(item)}
+            />
             <Boton text={"Guardar"} onPress={() => navigation.navigate('Confirmacion')} />
         </View>
     );
@@ -81,6 +103,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f5f5f5',
         padding: 20,
+    },
+    dropdownContainer: {
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        padding: 10,
+        backgroundColor: '#fff',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 2,
     },
     title: {
         fontSize: 24,
@@ -100,4 +134,32 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
     },
+    item: {
+        padding: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e0e0e0',
+        backgroundColor: '#f9f9f9',
+    },
+    itemText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#333',
+    },
+    itemDate: {
+        fontSize: 12,
+        color: '#666',
+    },
 });
+
+/*
+   X "name": str,
+   X "description": str,
+   "id_event_category": int,
+   "id_event_location": int,
+   "start_date": datetime,
+   X "duration_in_minutes": int,
+   X  "price": int,
+   "enabled_for_enrollment": bool,
+   X "max_assistance": int,
+   "id_creator_user": int, // pasa automatico
+*/
