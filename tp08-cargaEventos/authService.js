@@ -50,4 +50,14 @@ export const getEventos = async(credentials) => {
   }
 }
 
+export const createEvent = async(credentials) => {
+  try{
+    const response = await api.post('event', credentials);
+    return response.data;
+  } catch(error) {
+    console.error('Error al crear el evento', error);
+    throw error;
+  }
+}
+
 // axios.post("http://localhost:5000", credentials)

@@ -49,9 +49,9 @@ export default function Formulario() {
         const fetchLocations = async () => {
             try {
                 const data = await getLocations(token);
-                console.log('token ', token)
-                console.log('locaciones: \n', data);
-                setLocations(data);
+                console.log('token', token)
+                console.log('localidades: \n', data);
+                setCategories(data);
             } catch (error) {
                 console.error('(UseEffect) Error al cargar las localidades:', error);
             }
