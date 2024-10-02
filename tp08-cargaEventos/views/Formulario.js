@@ -7,8 +7,6 @@ import CustomTextInput from '../components/textInput';
 import NumberInput from '../components/numberInput';
 import { Dropdown } from 'react-native-element-dropdown';
 import { getCategories, getLocations } from '../authService';
-import Select from '../components/Select';
-
 
 export default function Formulario() {
     const navigation = useNavigation();
@@ -26,6 +24,7 @@ export default function Formulario() {
     
     const route = useRoute();
     const { token } = route.params;
+    console.log('Paramteros de ruta en Formulario.js: ', route.params);
 
     const renderItem = (item) => (
         <View style={styles.item}>
@@ -37,27 +36,29 @@ export default function Formulario() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
+                console.log('token', token);
                 const data = await getCategories(token);
-                console.log('token', token)
                 console.log('categorías: \n', data);
                 setCategories(data);
             } catch (error) {
                 console.error('(UseEffect) Error al cargar las categorías:', error);
             }
         };
+    
         const fetchLocations = async () => {
             try {
                 const data = await getLocations(token);
-                console.log('token', token)
+                console.log('token', token);
                 console.log('localidades: \n', data);
                 setLocations(data);
             } catch (error) {
                 console.error('(UseEffect) Error al cargar las localidades:', error);
             }
         };
+    
         fetchCategories();
         fetchLocations();
-    }, [token]);
+    }, [token]); //
     
     return (
         <View style={styles.container}>

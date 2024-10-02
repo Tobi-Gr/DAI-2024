@@ -17,11 +17,13 @@ export default function Login() {
       return;
     }
     try {
-      const credentials = { username, contrasena };
+      const credentials = {
+        "username": username,
+        "password" : contrasena 
+      };
       const user = await loginUser(credentials);
+      console.log(user);
       navigation.navigate('Index', { nombre: user.username, token: user.token});
-      console.log("username:", username);
-      console.log("contrasena:", contrasena);
     } catch (error) {
       alert('Error al iniciar sesión');
       console.error('Error en el login:', error);

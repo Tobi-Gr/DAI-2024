@@ -7,16 +7,13 @@ import { getEventos } from '../authService';
 export default function Index() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { nombre } = route.params; // pones el nombre de variable definido en tus rutas
-    const { token } = route.params;
+    const { nombre, token } = route.params;
     const [eventos, setEventos] = useState([]);
 
     useEffect(() => {
         const fetchEventos = async () => {
             try {
                 const data = await getEventos(token);
-                console.log('token: ', token);
-                console.log('eventos: \n', data);
                 setEventos(data);
             } catch (error) {
                 console.error('Error al cargar los eventos:', error);

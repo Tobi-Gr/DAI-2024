@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center', // Centra el contenido verticalmente
+        justifyContent: 'center',
         backgroundColor: 'white',
         padding: 20,
         paddingTop: 35,

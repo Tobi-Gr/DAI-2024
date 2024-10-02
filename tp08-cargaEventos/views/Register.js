@@ -15,7 +15,12 @@ export default function Register() {
   
     const handleRegister = async () => {
       try {
-        const userData = { nombre, apellido, username, contrasena };
+        const userData = {
+          "first_name": nombre,
+          "last_name" : apellido,
+          "username"  : username,
+          "password"  : contrasena 
+        };
         await registerUser(userData);
         navigation.navigate('Login');
       } catch (error) {
