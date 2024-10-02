@@ -1,11 +1,13 @@
 import {Router} from 'express';
-import CategoryService from './../services/category-service.js';
+import AuthMiddleware from '../middlewares/authenticationMiddleware.js';
 import ValidationsHelper from '../helpers/validations-helper.js';
+import CategoryService from './../services/category-service.js';
 const router = Router();
 const svc = new CategoryService();
 const v = new ValidationsHelper();
+const mw = new AuthMiddleware();
 
-router.get('', async(req, res) => {
+router.get('', mw.AuthMiddleware, async(req, res) => {
     const returnArray = await svc.getAllAsync();
     if(returnArray != null)
         return res.status(200).json(returnArray);
