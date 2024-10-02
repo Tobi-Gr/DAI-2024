@@ -50,7 +50,7 @@ export default function Formulario() {
                 const data = await getLocations(token);
                 console.log('token', token)
                 console.log('localidades: \n', data);
-                setCategories(data);
+                setLocations(data);
             } catch (error) {
                 console.error('(UseEffect) Error al cargar las localidades:', error);
             }
@@ -67,30 +67,32 @@ export default function Formulario() {
             <NumberInput placeholder="Duración en minutos" value={duracion} onChange={setDuracion}/>
             <NumberInput placeholder="Precio" value={precio} onChange={setPrecio}/>
             <NumberInput placeholder="Asistencia máxima" value={asistenciaMax} onChange={setAsistenciaMax}/>
-            <Dropdown
-                data={categories}
-                labelField="name"
-                valueField="id"
-                placeholder="Select an item"
-                value={selectedCategory}
-                onChange={(item) => {
-                    setSelectedCategory(item.id);
-                }}
-                containerStyle={styles.dropdownContainer}
-                renderItem={(item) => renderItem(item)}
-            />
-            <Dropdown
-                data={locations}
-                labelField="name"
-                valueField="id"
-                placeholder="Select an item"
-                value={selectedLocation}
-                onChange={(item) => {
-                    setSelectedLocation(item.id);
-                }}
-                containerStyle={styles.dropdownContainer}
-                renderItem={(item) => renderItem(item)}
-            />
+            <View style={styles.dropdownContainer}>
+                <Dropdown
+                    data={categories}
+                    labelField="name"
+                    valueField="id"
+                    placeholder="Categoría"
+                    value={selectedCategory}
+                    onChange={(item) => {
+                        setSelectedCategory(item.id);
+                    }}
+                    renderItem={(item) => renderItem(item)}
+                />
+            </View>
+            <View style={styles.dropdownContainer}>
+                <Dropdown
+                    data={locations}
+                    labelField="name"
+                    valueField="id"
+                    placeholder="Localidad"
+                    value={selectedLocation}
+                    onChange={(item) => {
+                        setSelectedLocation(item.id);
+                    }}
+                    renderItem={(item) => renderItem(item)}
+                />
+            </View>
             <Boton text={"Guardar"} onPress={() => navigation.navigate('Confirmacion')} />
         </View>
     );
@@ -105,16 +107,20 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     dropdownContainer: {
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        padding: 10,
-        backgroundColor: '#fff',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 2,
+        width: '100%',
+        backgroundColor: 'white',
+        borderWidth: 0,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 20,
+        marginTop: 15,
+        shadowColor: '#0060DD',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.3, 
+        shadowRadius: 10,
+        elevation: 5,
+        borderColor: 'transparent',
+        fontSize: 16
     },
     title: {
         fontSize: 24,
