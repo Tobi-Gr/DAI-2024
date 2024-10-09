@@ -18,9 +18,9 @@ export default function Formulario() {
     const [ asistenciaMax, setAsistenciaMax ] = useState("");
     
     const [categories, setCategories ] = useState([]);
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [idSelectedCategory, idSetSelectedCategory] = useState(null);
     const [locations, setLocations]  = useState([]);
-    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [idSelectedLocation, setIdSelectedLocation] = useState(null);
     
     const route = useRoute();
     const { token } = route.params;    
@@ -56,16 +56,17 @@ export default function Formulario() {
     }, [token]); //
 
     function handleGuardar(){
-        console.log("nombre que estamos enviando: ", nombre);
+        let selectedCategory = categories.find((category) => category.id === idSelectedCategory);
+        let selectedLocation = locations.find((location) => location.id === idSelectedLocation);
+        
         const eventoACrear = {
-            'nombre': nombre,
-            'descripcion': descripcion,
-            'duracion': duracion,
-            'precio': precio,
-            'asistenciaMax': asistenciaMax,
-            'categoria': selectedCategory,
-            'localidad': selectedLocation,
-
+            'Nombre': nombre,
+            'Descripcion': descripcion,
+            'Duracion': duracion,
+            'Precio': precio,
+            'Asistencia maxima': asistenciaMax,
+            'Categoria': selectedCategory,
+            'Localidad': selectedLocation,
         }
         navigation.navigate('Confirmacion', {eventoACrear: eventoACrear});
     }
@@ -84,9 +85,9 @@ export default function Formulario() {
                     labelField="name"
                     valueField="id"
                     placeholder="Categoría"
-                    value={selectedCategory}
+                    value={idSelectedCategory}
                     onChange={(item) => {
-                        setSelectedCategory(item.id);
+                        idSetSelectedCategory(item.id);
                     }}
                     renderItem={(item) => renderItem(item)}
                 />
@@ -97,9 +98,9 @@ export default function Formulario() {
                     labelField="name"
                     valueField="id"
                     placeholder="Localidad"
-                    value={selectedLocation}
+                    value={idSelectedLocation}
                     onChange={(item) => {
-                        setSelectedLocation(item.id);
+                        setIdSelectedLocation(item.id);
                     }}
                     renderItem={(item) => renderItem(item)}
                 />
@@ -167,16 +168,3 @@ const styles = StyleSheet.create({
         color: '#666',
     },
 });
-
-/*
-   X "name": str,
-   X "description": str,
-   "id_event_category": int,
-   "id_event_location": int,
-   "start_date": datetime,
-   X "duration_in_minutes": int,
-   X  "price": int,
-   "enabled_for_enrollment": bool,
-   X "max_assistance": int,
-   "id_creator_user": int, // pasa automatico
-*/
