@@ -1,5 +1,5 @@
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
 import React, { useState, useEffect } from 'react';
@@ -11,11 +11,11 @@ import { getCategories, getLocations } from '../authService';
 export default function Formulario() {
     const navigation = useNavigation();
     
-    const { nombre, setNombre } = useState("");
-    const { descripcion, setDescripcion } = useState("");
-    const { duracion, setDuracion } = useState("");
-    const { precio, setPrecio } = useState("");
-    const { asistenciaMax, setAsistenciaMax } = useState("");
+    const [ nombre, setNombre ] = useState("");
+    const [ descripcion, setDescripcion ] = useState("");
+    const [ duracion, setDuracion ] = useState("");
+    const [ precio, setPrecio ] = useState("");
+    const [ asistenciaMax, setAsistenciaMax ] = useState("");
     
     const [categories, setCategories ] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -23,8 +23,7 @@ export default function Formulario() {
     const [selectedLocation, setSelectedLocation] = useState(null);
     
     const route = useRoute();
-    const { token } = route.params;
-    console.log('Paramteros de ruta en Formulario.js: ', route.params);
+    const { token } = route.params;    
 
     const renderItem = (item) => (
         <View style={styles.item}>
@@ -36,9 +35,7 @@ export default function Formulario() {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                console.log('token', token);
                 const data = await getCategories(token);
-                console.log('categorías: \n', data);
                 setCategories(data);
             } catch (error) {
                 console.error('(UseEffect) Error al cargar las categorías:', error);
@@ -48,8 +45,6 @@ export default function Formulario() {
         const fetchLocations = async () => {
             try {
                 const data = await getLocations(token);
-                console.log('token', token);
-                console.log('localidades: \n', data);
                 setLocations(data);
             } catch (error) {
                 console.error('(UseEffect) Error al cargar las localidades:', error);
@@ -59,6 +54,21 @@ export default function Formulario() {
         fetchCategories();
         fetchLocations();
     }, [token]); //
+
+    function handleGuardar(){
+        console.log("nombre que estamos enviando: ", nombre);
+        const eventoACrear = {
+            'nombre': nombre,
+            'descripcion': descripcion,
+            'duracion': duracion,
+            'precio': precio,
+            'asistenciaMax': asistenciaMax,
+            'categoria': selectedCategory,
+            'localidad': selectedLocation,
+
+        }
+        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear});
+    }
     
     return (
         <View style={styles.container}>
@@ -94,7 +104,7 @@ export default function Formulario() {
                     renderItem={(item) => renderItem(item)}
                 />
             </View>
-            <Boton text={"Guardar"} onPress={() => navigation.navigate('Confirmacion')} />
+            <Boton text={"Guardar"} onPress={handleGuardar} />
         </View>
     );
 }

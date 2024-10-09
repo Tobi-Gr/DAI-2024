@@ -11,7 +11,10 @@ const NumberInput = ({ placeholder, value, onChange }) => {
     const handleChange = (text) => {
         // Filtrar solo números
         const numericText = text.replace(/[^0-9]/g, '');
-        onChange(numericText);
+        if(onChange)
+        {
+            onChange(numericText);
+        }
     };
 
     return (

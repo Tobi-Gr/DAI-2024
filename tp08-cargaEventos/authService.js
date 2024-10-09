@@ -22,7 +22,9 @@ export const loginUser = async (credentials) => {
 
 export const getCategories = async (credentials) => {
   try {
-    const response = await api.get('category/', credentials);
+    const response = await api.get('category/', {headers: {
+      'Authorization': `Bearer ${credentials}`}
+  });
     return response.data;
   } catch (error) {
     console.error('Error en la carga de categorías:', error);
@@ -32,7 +34,9 @@ export const getCategories = async (credentials) => {
 
 export const getLocations = async (credentials) => {
   try {
-    const response = await api.get('event-location/', credentials);
+    const response = await api.get('event-location/', {headers: {
+      'Authorization': `Bearer ${credentials}`}
+  });
     return response.data;
   } catch (error) {
     console.error('Error en la carga de localidades:', error);
@@ -42,7 +46,9 @@ export const getLocations = async (credentials) => {
 
 export const getEventos = async(credentials) => {
   try {
-    const response = await api.get('event', credentials);
+    const response = await api.get('event', {headers: {
+      'Authorization': `Bearer ${credentials}`}
+  });
     return response.data;
   } catch (error) {
     console.error('Error en el fetch de los eventos:', error);
