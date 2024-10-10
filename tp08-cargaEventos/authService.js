@@ -1,5 +1,47 @@
 import { api } from './api';
 
+//credenciales + post
+export const postAuth = async (endpoint, body, token) => {
+  try {
+    const response = await api.post(endpoint, body, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Endpoint:', endpoint);
+    console.error('Error en el post autorizado:', error);
+    throw error;
+  }
+};
+
+//post
+export const post = async (endpoint) => {
+  try {
+    const response = await api.post(endpoint);
+    return response.data;
+  } catch (error) {
+    console.error('Endpoint:', endpoint);
+    console.error('Error en el post autorizado:', error);
+    throw error;
+  }
+};
+//get credenciales
+export const getAuth = async(endpoint, credentials) => {
+  try {
+    const response = await api.get(endpoint, {headers: {
+      'Authorization': `Bearer ${credentials}`}
+  });
+    return response.data;
+  } catch (error) {
+    console.error('Endpoint:', endpoint);
+    console.error('Error en el fetch:', error);
+    throw error;
+  }
+}
+
+
 export const registerUser = async (userData) => {
   try {
     const response = await api.post('user/register', userData);
@@ -65,5 +107,3 @@ export const createEvent = async(credentials) => {
     throw error;
   }
 }
-
-// axios.post("http://localhost:5000", credentials)

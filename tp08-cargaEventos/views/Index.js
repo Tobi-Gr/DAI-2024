@@ -7,7 +7,7 @@ import { getEventos } from '../authService';
 export default function Index() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { nombre, token } = route.params;
+    const { nombre, token, id } = route.params;
     console.log('llegó el token??', token)
     const [eventos, setEventos] = useState([]);
 
@@ -39,7 +39,7 @@ export default function Index() {
                 )}
                 contentContainerStyle={styles.listContainer}
             />
-            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token})} />
+            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, id: id })} />
         </View>
     );
 }

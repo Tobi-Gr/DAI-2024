@@ -1,5 +1,6 @@
 import { createNavigatorFactory, useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text } from 'react-native';
+import { postAuth } from './../authService';
 import React from 'react';
 import Title from '../components/Title';
 import Boton from '../components/Boton';
@@ -7,9 +8,15 @@ import Boton from '../components/Boton';
 export default function Confirmacion() {
     const navigation = useNavigation();
     const route = useRoute(); 
-    const { eventoACrear } = route.params;
+    const { eventoACrear, token } = route.params;
 
-    
+    const guardarEvento = async () => {
+        if(eventoACrear === null){
+            console.error("Error al subir evento: ", error)
+        }else{
+            postAuth('event/', eventoACrear, token)
+        }
+    };
 
     return (
         <View style={[styles.boxShadow, styles.container]}>

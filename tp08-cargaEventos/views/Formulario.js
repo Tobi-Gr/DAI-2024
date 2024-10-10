@@ -7,6 +7,7 @@ import CustomTextInput from '../components/textInput';
 import NumberInput from '../components/numberInput';
 import { Dropdown } from 'react-native-element-dropdown';
 import { getCategories, getLocations } from '../authService';
+import DateInput from '../components/dateInput';
 
 export default function Formulario() {
     const navigation = useNavigation();
@@ -16,6 +17,8 @@ export default function Formulario() {
     const [ duracion, setDuracion ] = useState("");
     const [ precio, setPrecio ] = useState("");
     const [ asistenciaMax, setAsistenciaMax ] = useState("");
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [ eventDate, setEventDate] = useState("");
     
     const [categories, setCategories ] = useState([]);
     const [idSelectedCategory, idSetSelectedCategory] = useState(null);
@@ -23,7 +26,7 @@ export default function Formulario() {
     const [idSelectedLocation, setIdSelectedLocation] = useState(null);
     
     const route = useRoute();
-    const { token } = route.params;    
+    const { token, id_user } = route.params;    
 
     const renderItem = (item) => (
         <View style={styles.item}>
@@ -56,19 +59,23 @@ export default function Formulario() {
     }, [token]); //
 
     function handleGuardar(){
-        let selectedCategory = categories.find((category) => category.id === idSelectedCategory);
-        let selectedLocation = locations.find((location) => location.id === idSelectedLocation);
+        //let selectedCategory = categories.find((category) => category.id === idSelectedCategory);
+        //let selectedLocation = locations.find((location) => location.id === idSelectedLocation);
         
+        //fecha
         const eventoACrear = {
-            'Nombre': nombre,
-            'Descripcion': descripcion,
-            'Duracion': duracion,
-            'Precio': precio,
-            'Asistencia maxima': asistenciaMax,
-            'Categoria': selectedCategory,
-            'Localidad': selectedLocation,
+            'name': nombre,
+            'description': descripcion,
+            'id_event_category': idSelectedCategory,
+            'id_event_location': idSelectedLocation,
+            'start_date': 'LOREM IPSUM',
+            'duration_in_minutes': duracion,
+            'price': precio,
+            "enabled_for_enrollment": 1,
+            'max_assistance': asistenciaMax,
+            "id_creator_user": id_user
         }
-        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear});
+        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token});
     }
     
     return (
@@ -79,6 +86,7 @@ export default function Formulario() {
             <NumberInput placeholder="Duración en minutos" value={duracion} onChange={setDuracion}/>
             <NumberInput placeholder="Precio" value={precio} onChange={setPrecio}/>
             <NumberInput placeholder="Asistencia máxima" value={asistenciaMax} onChange={setAsistenciaMax}/>
+            <DateInput date={eventDate} setFecha={setEventDate}/>
             <View style={styles.dropdownContainer}>
                 <Dropdown
                     data={categories}
