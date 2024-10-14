@@ -25,7 +25,7 @@ export default function Confirmacion() {
                 {Object.entries(eventoACrear).map(([key, value]) => (
                     <Text key={key} style={styles.text}>
                         <Text style={styles.text}>{`${key}: `}</Text>
-                        {key === 'Localidad' || key === 'Categoria' ? value.name : value}
+                        {key === 'id_event_location' || key === 'id_event_category' ? value.name : value}
                     </Text>
                 ))}
             </View>
