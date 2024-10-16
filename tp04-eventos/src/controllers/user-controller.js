@@ -16,8 +16,9 @@ router.get('', async(req, res) => {
 });
 
 
-router.get('/:id', async(req, res) => {
+router.get('/id/:id', async(req, res) => {
     let respuesta;
+    console.log('estás haciendo el de buscar por id??')
     if(v.isANumber(req.params.id))
     {
         const returnUser = await svc.getByIdAsync(req.params.id);
@@ -31,18 +32,14 @@ router.get('/:id', async(req, res) => {
     return respuesta;
 });
 
-router.get('/:username', async (req, res) => { 
+router.get('/username/:username', async (req, res) => { 
     let respuesta;
-    if(v.isANumber(req.params.id))
-    {
-        const returnUser = await svc.getByUsernameAndPasswordAsync(req.params.username, req.body.password);
-        if(returnUser != null)
-            respuesta = res.status(200).json(returnUser);
-        else
-            respuesta = res.status(404).send(`Usuario no encontrado.`);
-    }
+    console.log(req.params.username);
+    const returnUser = await svc.getByUsernameAsync(req.params.username);
+    if(returnUser != null)
+        respuesta = res.status(200).json(returnUser);
     else
-        respuesta = res.status(400).send('Datos no válidos.');
+        respuesta = res.status(404).send(`Usuario no encontrado.`);
     return respuesta;
 });
 
