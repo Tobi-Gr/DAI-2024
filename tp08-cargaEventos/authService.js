@@ -1,5 +1,15 @@
 import { api } from './api';
 
+export const getUserByUsername = async (endpoint, params) => {
+  try {
+    console.log('llegaste?')
+    const response = await api.get(endpoint, params);
+    return response.data;
+  } catch (error) {
+    console.error('Error obtener el usuario:', error);
+    throw error;
+  }
+}
 //credenciales + post
 export const postAuth = async (endpoint, body, token) => {
   try {
@@ -42,9 +52,6 @@ export const getAuth = async(endpoint, credentials) => {
   }
 }
 
-export const getIdUser = async (username) => {
-  
-}
 
 export const registerUser = async (userData) => {
   try {
@@ -58,6 +65,7 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
+    console.log(credentials)
     const response = await api.post('user/login', credentials);
     return response.data;
   } catch (error) {

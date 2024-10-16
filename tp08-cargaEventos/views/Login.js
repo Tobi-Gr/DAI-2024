@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/textInput';
 import { StyleSheet, View } from 'react-native';
-import { loginUser } from '../authService';
+import { loginUser, getAuth, getUserByUsername } from '../authService';
 import React, {useState} from 'react';
 import Title from '../components/Title';
 import Boton from '../components/Boton';
@@ -22,9 +22,9 @@ export default function Login() {
         "password" : contrasena 
       };
       const user = await loginUser(credentials);
-      const id = await getIdUser(username) 
-      console.log(user.id)
-      navigation.navigate('Index', { nombre: user.username, token: user.token, id: user.id});
+      // const userDetails = await getUserByUsername(`/users/username/${username}`);
+      // const userId = userDetails.id;
+      navigation.navigate('Index', { nombre: user.username, token: user.token});
     } catch (error) {
       alert('Error al iniciar sesión');
       console.error('Error en el login:', error);
