@@ -15,6 +15,7 @@ router.get('', async(req, res) => {
         return res.status(500).send(`Error interno.`);
 });
 
+
 router.get('/:id', async(req, res) => {
     let respuesta;
     if(v.isANumber(req.params.id))

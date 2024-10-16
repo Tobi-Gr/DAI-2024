@@ -72,13 +72,14 @@ router.get('/:id', async (req, res) => {
 router.post('', am.AuthMiddleware, async (req, res) => {
     try {
         const eventLocation = await svc_el.getByIdAsync(req.body.id_event_location);
+        console.log('req.body: \n', req.body)
         
         if (!req.body.id_event_location) {
             return res.status(400).send("Bad request, id de la locación no existe en el contexto actual");
         }
 
         if (req.body.name == null || req.body.name.length < 3 || eventLocation.full_address == null || eventLocation.full_address.length < 3) {
-            return res.status(400).send("Bad request, nombre y dirección tienen que tener más de tres caracteres");
+            return res.status(400).send("Bad request, nombre y descripción tienen que tener más de tres caracteres");
         }
 
         if (req.body.max_assistance > eventLocation.max_capacity) {

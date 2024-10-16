@@ -11,7 +11,6 @@ class AutenticationMiddleware {
 
     AuthMiddleware = async (req, res, next) => {
         let authHeader = req.headers.authorization;
-        console.log('authHeader: \n', authHeader);
         let payload;
         let authService;
         if(!authHeader) {
@@ -19,9 +18,7 @@ class AutenticationMiddleware {
         } else {
             authHeader = this.removeBearer(authHeader);
             authService = new AuthService();
-            console.log('authService: ', authService);
             payload = await authService.decryptToken(authHeader);
-            console.log('payload: ', payload);
             if(payload != null){
                 req.user = payload;
                 next();
