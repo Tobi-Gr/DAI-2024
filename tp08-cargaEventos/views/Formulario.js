@@ -17,7 +17,7 @@ export default function Formulario() {
     const [ duracion, setDuracion ] = useState("");
     const [ precio, setPrecio ] = useState("");
     const [ asistenciaMax, setAsistenciaMax ] = useState("");
-    const [showDatePicker, setShowDatePicker] = useState(false);
+    // const [showDatePicker, setShowDatePicker] = useState(false);
     const [ eventDate, setEventDate] = useState("");
     
     const [categories, setCategories ] = useState([]);
@@ -59,23 +59,19 @@ export default function Formulario() {
     }, [token]); //
 
     function handleGuardar(){
-        //let selectedCategory = categories.find((category) => category.id === idSelectedCategory);
-        //let selectedLocation = locations.find((location) => location.id === idSelectedLocation);
-        
-        //fecha
         const eventoACrear = {
             'name': nombre,
             'description': descripcion,
             'id_event_category': idSelectedCategory,
             'id_event_location': idSelectedLocation,
-            'start_date': 'LOREM IPSUM',
+            'start_date': eventDate,
             'duration_in_minutes': duracion,
             'price': precio,
             "enabled_for_enrollment": 1,
             'max_assistance': asistenciaMax,
             "id_creator_user": id_user
         }
-        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token});
+        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations});
     }
     
     return (

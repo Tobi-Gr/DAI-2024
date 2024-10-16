@@ -8,7 +8,6 @@ export default function Index() {
     const navigation = useNavigation();
     const route = useRoute();
     const { nombre, token, id } = route.params;
-    console.log('llegó el token??', token)
     const [eventos, setEventos] = useState([]);
 
     useEffect(() => {
