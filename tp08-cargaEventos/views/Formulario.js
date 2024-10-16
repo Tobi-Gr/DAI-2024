@@ -26,7 +26,8 @@ export default function Formulario() {
     const [idSelectedLocation, setIdSelectedLocation] = useState(null);
     
     const route = useRoute();
-    const { token, id_user } = route.params;    
+    const { token, id } = route.params;  
+    console.log(id);  
 
     const renderItem = (item) => (
         <View style={styles.item}>

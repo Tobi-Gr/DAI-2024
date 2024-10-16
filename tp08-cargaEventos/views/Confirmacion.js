@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { createNavigatorFactory, useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text } from 'react-native';
 import { postAuth } from './../authService';
@@ -14,12 +14,14 @@ export default function Confirmacion() {
 
     selectedCategory = categories.find((category) => category.id === eventoACrear.id_event_category);
     selectedLocation = locations.find((location) => location.id === eventoACrear.id_event_location);
-    console.log('selectedLocation y selectedCategory ', selectedLocation, ' y ', selectedCategory)
+    
     const guardarEvento = async () => {
         if(eventoACrear === null){
             console.error("Error al subir evento: ", error)
         }else{
             postAuth('event/', eventoACrear, token)
+            alert('Tu evento ha sido creado con éxito!')
+            navigation.navigate('Index', { token: token })
         }
     };
 
@@ -45,7 +47,7 @@ export default function Confirmacion() {
                     </Text>
                 ))}
             </View>
-            <Boton style={styles.no} text={'No'} onPress={()=> navigation.navigate("Formulario")}/>
+            <Boton style={styles.no} text={'No'} onPress={()=> navigation.navigate("Formulario", { token: token})}/>
             <Boton style={styles.si} text={'Si'} onPress={guardarEvento}/> 
         </View>
     );

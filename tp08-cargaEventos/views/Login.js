@@ -22,6 +22,8 @@ export default function Login() {
         "password" : contrasena 
       };
       const user = await loginUser(credentials);
+      const id = await getIdUser(username) 
+      console.log(user.id)
       navigation.navigate('Index', { nombre: user.username, token: user.token, id: user.id});
     } catch (error) {
       alert('Error al iniciar sesión');

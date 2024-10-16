@@ -8,6 +8,7 @@ export default function Index() {
     const navigation = useNavigation();
     const route = useRoute();
     const { nombre, token, id } = route.params;
+    console.log(id);
     const [eventos, setEventos] = useState([]);
 
     useEffect(() => {

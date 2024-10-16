@@ -8,6 +8,7 @@ export const postAuth = async (endpoint, body, token) => {
         Authorization: `Bearer ${token}`
       }
     });
+    console.log('response', response)
     return response.data;
   } catch (error) {
     console.error('Endpoint:', endpoint);
@@ -41,6 +42,9 @@ export const getAuth = async(endpoint, credentials) => {
   }
 }
 
+export const getIdUser = async (username) => {
+  
+}
 
 export const registerUser = async (userData) => {
   try {
