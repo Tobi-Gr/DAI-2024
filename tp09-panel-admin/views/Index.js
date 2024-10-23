@@ -2,25 +2,50 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import Boton from '../components/Boton';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getEventos } from '../authService';
+import { getEventos, getAuth } from '../authService';
 
 export default function Index() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { nombre, token, id } = route.params;
-    console.log(id);
+    const { nombre, token } = route.params;
     const [eventos, setEventos] = useState([]);
+    const [id, setId] = useState(null);
+
+    const getId = async () => {
+        const endpoint = 'user/username/' + nombre;
+        const user = await getAuth(endpoint, token);
+        console.log(user);
+        return user.id;
+    };
+
+    function isDateFuture(event) {
+        const hoy = new Date();
+        return new Date(event.start_date) > hoy;
+    }
+
+    function canAddAttendant(event)
+    {
+        //se necesita un endpoint nuevo TTnTT
+        //event.maxAssistant
+    }
+
+    const fetchEventos = async () => {
+        try {
+            const data = await getEventos(token);
+            setEventos(data);
+            console.log(data[0]);
+        } catch (error) {
+            console.error('Error al cargar los eventos:', error);
+        }
+    };
 
     useEffect(() => {
-        const fetchEventos = async () => {
-            try {
-                const data = await getEventos(token);
-                setEventos(data);
-            } catch (error) {
-                console.error('Error al cargar los eventos:', error);
-            }
+        const fetchData = async () => {
+            const userId = await getId();
+            setId(userId);
+            await fetchEventos();
         };
-        fetchEventos();
+        fetchData();
     }, []);
 
     return (
@@ -39,7 +64,7 @@ export default function Index() {
                 )}
                 contentContainerStyle={styles.listContainer}
             />
-            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, id: id })} />
+            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, id: id, nombre_user: nombre })} />
         </View>
     );
 }

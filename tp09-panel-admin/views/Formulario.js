@@ -26,8 +26,7 @@ export default function Formulario() {
     const [idSelectedLocation, setIdSelectedLocation] = useState(null);
     
     const route = useRoute();
-    const { token, id } = route.params;  
-    console.log(id);  
+    const { token, id: id_user, nombre_user } = route.params;  
 
     const renderItem = (item) => (
         <View style={styles.item}>
@@ -72,7 +71,7 @@ export default function Formulario() {
             'max_assistance': asistenciaMax,
             "id_creator_user": id_user
         }
-        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations});
+        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations, nombre_user: nombre_user});
     }
     
     return (

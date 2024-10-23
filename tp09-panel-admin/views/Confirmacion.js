@@ -9,7 +9,7 @@ import Boton from '../components/Boton';
 export default function Confirmacion() {
     const navigation = useNavigation();
     const route = useRoute(); 
-    const { eventoACrear, token, categories, locations } = route.params;
+    const { eventoACrear, token, categories, locations, nombre_user  } = route.params;
     let selectedCategory, selectedLocation
 
     selectedCategory = categories.find((category) => category.id === eventoACrear.id_event_category);
@@ -47,7 +47,7 @@ export default function Confirmacion() {
                     </Text>
                 ))}
             </View>
-            <Boton style={styles.no} text={'No'} onPress={()=> navigation.navigate("Formulario", { token: token})}/>
+            <Boton style={styles.no} text={'No'} onPress={()=> navigation.navigate("Index", { nombre: nombre_user, token: token })}/>
             <Boton style={styles.si} text={'Si'} onPress={guardarEvento}/> 
         </View>
     );

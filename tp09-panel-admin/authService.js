@@ -1,15 +1,5 @@
 import { api } from './api';
 
-export const getUserByUsername = async (endpoint, params) => {
-  try {
-    console.log('llegaste?')
-    const response = await api.get(endpoint, params);
-    return response.data;
-  } catch (error) {
-    console.error('Error obtener el usuario:', error);
-    throw error;
-  }
-}
 //credenciales + post
 export const postAuth = async (endpoint, body, token) => {
   try {
