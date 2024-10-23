@@ -17,4 +17,9 @@ export default class EnrollmentService {
         const registration = await repo.getByUserIdAndEventId(id_user);
         return registration;
     }
+   
+    getByEvent = async (entity) => {
+        const users = await repo.getByEvent(entity);
+        return users;
+    }
 }

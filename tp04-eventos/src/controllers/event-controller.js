@@ -14,7 +14,7 @@ const svc_enrollment = new EnrollmentService();
 const svc_user = new UserService();
 
 
-router.get('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
+router.post('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
     let idEvent = req.params.id;
     if(!v.isANumber(idEvent))
         return res.status(400).send("Id tiene que ser un número.");
@@ -112,5 +112,11 @@ router.delete('/:id', am.AuthMiddleware, async (req, res) => {
     return deleted;
 })
 //no estamos usando el validator, pero lo importamos por alguna razón
+
+router.get('/:id/enrollment', async (req, res) => { 
+    const params = req.params;
+    console.log(params);
+    return res.status(404).send("Id no encontrado.");
+});
 
 export default router;
