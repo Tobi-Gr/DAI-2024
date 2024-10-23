@@ -30,39 +30,34 @@ export default class EnrollmentRepository {
         return dbh.requestOne('DELETE FROM event_enrollments WHERE id = $1', [id])
     }
 
-    getByEvent = async (entity) => {
+    getByEventAsync = async (id_event, filtro) => {
         let params = [];
         let conditions = [];
     
-        let query = `SELECT DISTINCT users.* 
-                     FROM public.users 
+        let query = `SELECT users.* 
+                     FROM public.users
                      INNER JOIN public.event_enrollments ON users.id = event_enrollments.id_user
-                     WHERE event_enrollments.id_event = $1`;
-        params.push(entity.id_event); 
+                     WHERE event_enrollments.id_event = $1`; // Assuming you want to filter by id_event
+        params[0] = id_event;
     
-        if (entity.nombre) {
-            params.push(`%${entity.nombre}%`);
-            conditions.push(`lower(users.first_name) LIKE lower($${params.length})`);
+        if (filtro.first_name) {
+            conditions.push(`lower(users.first_name) LIKE lower($${params.length + 1})`);
+            params.push(`%${filtro.first_name}%`);
         }
-    
-        if (entity.apellido) {
-            params.push(`%${entity.apellido}%`);
-            conditions.push(`lower(users.last_name) LIKE lower($${params.length})`);
+        if (filtro.last_name) {
+            conditions.push(`lower(users.last_name) LIKE lower($${params.length + 1})`);
+            params.push(`%${filtro.last_name}%`);
         }
-    
-        if (entity.username) {
-            params.push(`%${entity.username}%`);
-            conditions.push(`lower(users.username) LIKE lower($${params.length})`);
+        if (filtro.username) {
+            conditions.push(`lower(users.username) LIKE lower($${params.length + 1})`);
+            params.push(`%${filtro.username}%`);
         }
-    
-        if (entity.assisted !== undefined) {
-            conditions.push(`event_enrollments.attended = $${params.length + 1}`);
-            params.push(entity.assisted);
+        if (filtro.attended) {
+            conditions.push(`event_enrollments.attended = TRUE`);
         }
-    
-        if (entity.minRating !== undefined) {
+        if (filtro.rating) {
             conditions.push(`event_enrollments.rating > $${params.length + 1}`);
-            params.push(entity.minRating);
+            params.push(filtro.rating); // Assuming rating is a number
         }
     
         if (conditions.length > 0) {
@@ -70,8 +65,8 @@ export default class EnrollmentRepository {
         }
     
         query += ";";
-        console.log(query);
     
         return dbh.requestValues(query, params);
     }
-}    
+    
+}   

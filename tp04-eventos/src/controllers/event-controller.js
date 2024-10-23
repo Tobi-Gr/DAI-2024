@@ -113,10 +113,17 @@ router.delete('/:id', am.AuthMiddleware, async (req, res) => {
 })
 //no estamos usando el validator, pero lo importamos por alguna razón
 
-router.get('/:id/enrollment', async (req, res) => { 
-    const params = req.params;
-    console.log(params);
-    return res.status(404).send("Id no encontrado.");
+router.get('/:id/enrollment', async (req, res) =>{
+    let respuesta;
+    const id_event = req.params.id;
+    const filtro = req.query;
+    const returnArray = await svc_enrollment.getByEvent(id_event, filtro);
+    if (returnArray != null)
+    {
+        respuesta = res.status(200).json(returnArray);
+    }
+    else respuesta = res.status(404).send('No hay resultados')
+    return respuesta;
 });
 
 export default router;
