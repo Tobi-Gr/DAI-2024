@@ -21,7 +21,7 @@ export default function Confirmacion() {
         }else{
             postAuth('event/', eventoACrear, token)
             alert('Tu evento ha sido creado con éxito!')
-            navigation.navigate('Index', { token: token })
+            navigation.navigate("Index", { nombre: nombre_user, token: token })
         }
     };
 
