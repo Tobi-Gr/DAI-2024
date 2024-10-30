@@ -58,8 +58,7 @@ export default function Index() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEvento', { token: token, idUser: id, idEvent: item.id })}>{item.name} </Text>
-                        {/* <Text style={styles.eventTitle} onPress={() => console.log('a ver este id: ', item.id)}> {item.name} </Text> */}
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEvento', { token: token, id: id, idEvent: item.id })}>{item.name} </Text>
                         <Text>{item.start_date}</Text>
                         {canAddAttendant(item)
                             ? <Text style={styles.attendantText}>Podes unirte</Text>
@@ -68,7 +67,7 @@ export default function Index() {
                 )}
                 contentContainerStyle={styles.listContainer}
             />
-            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, idUser: id, nombre_user: nombre })} />
+            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, id: id, nombre_user: nombre })} />
         </View>
     );
 }
