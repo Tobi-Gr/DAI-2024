@@ -25,7 +25,7 @@ export default function Index() {
 
     const canAddAttendant = async (event) => {
     {
-        const enlistados = await get('event/enrollment/', event.id.toString());
+        const enlistados = await get('event/enrollment/' + event.id.toString());
         return enlistados.length < event.maxAssistant;
     }}
 
