@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import Boton from '../components/Boton';
+import BotonSecundario from '../components/BotonSecundario';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { getEventos, getAuth, get } from '../authService';
 
@@ -50,8 +51,6 @@ export default function Index() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>¡Bienvenido, {nombre}!</Text>
-            <Text style={styles.subtitle}>Has iniciado sesión exitosamente.</Text>
             <Text style={styles.title}>Próximos Eventos</Text>
             <FlatList
                 data={eventos.filter(isDateFuture)}
@@ -67,7 +66,7 @@ export default function Index() {
                 )}
                 contentContainerStyle={styles.listContainer}
             />
-            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, id: id, nombre_user: nombre })} />
+            <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, idUser: id, nombre_user: nombre })} />
         </View>
     );
 }
