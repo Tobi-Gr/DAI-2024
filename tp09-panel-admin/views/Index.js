@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import Boton from '../components/Boton';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { getEventos, getAuth } from '../authService';
+import { getEventos, getAuth, get } from '../authService';
 
 export default function Index() {
     const navigation = useNavigation();
@@ -23,11 +23,11 @@ export default function Index() {
         return new Date(event.start_date) > hoy;
     }
 
-    function canAddAttendant(event)
+    const canAddAttendant = async (event) => {
     {
-        //se necesita un endpoint nuevo TTnTT
-        //event.maxAssistant
-    }
+        const enlistados = await get('event/enrollment/', event.id.toString());
+        return enlistados.length < event.maxAssistant;
+    }}
 
     const fetchEventos = async () => {
         try {
@@ -54,12 +54,15 @@ export default function Index() {
             <Text style={styles.subtitle}>Has iniciado sesión exitosamente.</Text>
             <Text style={styles.title}>Próximos Eventos</Text>
             <FlatList
-                data={eventos}
+                data={eventos.filter(isDateFuture)}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
                         <Text style={styles.eventTitle}>{item.name}</Text>
                         <Text>{item.start_date}</Text>
+                        {canAddAttendant(item)
+                            ? <Text style={styles.attendantText}>Podes unirte</Text>
+                            : <Text style={styles.attendantText}>Entradas agotadas</Text>}
                     </View>
                 )}
                 contentContainerStyle={styles.listContainer}

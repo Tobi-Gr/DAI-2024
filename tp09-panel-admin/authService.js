@@ -42,6 +42,16 @@ export const getAuth = async(endpoint, credentials) => {
   }
 }
 
+export const get = async(endpoint) => {
+  try{
+    const response = await api.get(endpoint);
+    return response.data;
+  } catch(error) {
+    console.error('Error en el get: ', error);
+    console.error('Endpoint: ', endpoint)
+    throw error;
+  }
+}
 
 export const registerUser = async (userData) => {
   try {
