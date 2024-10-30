@@ -58,7 +58,7 @@ export default function Index() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle}>{item.name}</Text>
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEvento', { token: token, id: id, idEvent: item.id })}>{item.name} </Text>
                         <Text>{item.start_date}</Text>
                         {canAddAttendant(item)
                             ? <Text style={styles.attendantText}>Podes unirte</Text>
