@@ -9,10 +9,10 @@ export default function DetalleEvento() {
     const { idEvento, token } = route.params;
 
     const getId = async () => {
-        const endpoint = 'event/username/' + nombre;
-        const user = await getAuth(endpoint, token);
-        console.log(user);
-        return user.id;
+        const endpoint = 'event/' + idEvento;
+        const event = await getAuth(endpoint, token);
+        console.log(event);
+        return event;
     };
 
 }
