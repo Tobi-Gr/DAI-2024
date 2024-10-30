@@ -58,7 +58,7 @@ export default function Index() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEvento', { token: token, idUser: id, idEvent: item.id })}>{item.name} console,</Text>
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEvento', { token: token, idUser: id, idEvent: item.id })}>{item.name} </Text>
                         {/* <Text style={styles.eventTitle} onPress={() => console.log('a ver este id: ', item.id)}> {item.name} </Text> */}
                         <Text>{item.start_date}</Text>
                         {canAddAttendant(item)
