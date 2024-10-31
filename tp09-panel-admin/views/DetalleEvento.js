@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 export default function DetalleEvento() {
     const route = useRoute();
     const { idEvento, token } = route.params;
+    const navigation = useNavigation();
 
     const getEvent = async () => {
         const endpoint = 'event/' + idEvento;
@@ -16,17 +17,12 @@ export default function DetalleEvento() {
     };
     return (
         <View style={[styles.boxShadow, styles.container]}>
-            <Title text={"¿Querés publicar este evento?"}/>
-            <View style={styles.datosEvento}>
-                {Object.entries(getEvent()).map(([key, value]) => (
-                    <Text key={key} style={styles.text}>
-                        <Text style={styles.text}>{`${key}: ${value}`}</Text>
-                    </Text>
-                ))}
-            </View>
-            <Boton style={styles.no} text={'Atrás'} onPress={() => navigation.navigate('DetalleEvento', { token: token, id: id, idEvent: item.id })}/>
-            <Boton style={styles.si} text={'Inscribirse'} onPress={guardarEvento}/> 
+            <Boton style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('DetalleEvento', { token: token, id: id, idEvent: item.id })}/>
+            <Boton style={styles.principal} text={'Inscribirse'} onPress={guardarEvento}/> 
         </View>
     );
-
 }
+
+const styles = StyleSheet.create({
+
+})
