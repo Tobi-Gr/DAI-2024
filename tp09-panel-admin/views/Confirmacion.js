@@ -1,5 +1,5 @@
 // import { useState } from 'react';
-import { createNavigatorFactory, useNavigation, useRoute } from '@react-navigation/native';
+import {  useNavigation, useRoute } from '@react-navigation/native';
 import { StyleSheet, View, Text } from 'react-native';
 import { postAuth } from './../authService';
 import React from 'react';
@@ -9,8 +9,8 @@ import Boton from '../components/Boton';
 export default function Confirmacion() {
     const navigation = useNavigation();
     const route = useRoute(); 
-    const { eventoACrear, token, categories, locations, nombre_user  } = route.params;
-    let selectedCategory, selectedLocation
+    const { eventoACrear, token, categories, locations, nombre_user, idUser  } = route.params;
+    let selectedCategory, selectedLocation;
 
     selectedCategory = categories.find((category) => category.id === eventoACrear.id_event_category);
     selectedLocation = locations.find((location) => location.id === eventoACrear.id_event_location);
@@ -35,6 +35,7 @@ export default function Confirmacion() {
         'Precio': eventoACrear.price,
         'Asistencia máxima': eventoACrear.max_assistance,
     };
+    console.log(eventoNuevo);
 
     return (
         <View style={[styles.boxShadow, styles.container]}>

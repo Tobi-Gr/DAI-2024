@@ -6,8 +6,9 @@ import React, { useState, useEffect } from 'react';
 import CustomTextInput from '../components/textInput';
 import NumberInput from '../components/numberInput';
 import { Dropdown } from 'react-native-element-dropdown';
-import { getCategories, getLocations } from '../authService';
+import { getCategories, getLocations, postAuth } from '../authService';
 import DateInput from '../components/dateInput';
+import BotonSecundario from '../components/BotonSecundario';
 
 export default function Formulario() {
     const navigation = useNavigation();
@@ -26,7 +27,8 @@ export default function Formulario() {
     const [idSelectedLocation, setIdSelectedLocation] = useState(null);
     
     const route = useRoute();
-    const { token, id: id_user, nombre_user } = route.params;  
+    const { token, idUser, nombre_user } = route.params;  
+    console.log(idUser);
 
     const renderItem = (item) => (
         <View style={styles.item}>
@@ -69,11 +71,12 @@ export default function Formulario() {
             'price': precio,
             "enabled_for_enrollment": 1,
             'max_assistance': asistenciaMax,
-            "id_creator_user": id_user
+            "id_creator_user": idUser
         }
-        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations, nombre_user: nombre_user});
+        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations, nombre_user: nombre_user, idUser: idUser});
+        console.log(eventoACrear);
     }
-    
+
     return (
         <View style={styles.container}>
             <Title text="Crear un nuevo evento" />
@@ -110,6 +113,7 @@ export default function Formulario() {
                 />
             </View>
             <Boton text={"Guardar"} onPress={handleGuardar} />
+            <BotonSecundario style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('Index', { token: token, id: idUser})}/>
         </View>
     );
 }

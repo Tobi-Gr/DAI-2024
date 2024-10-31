@@ -65,7 +65,6 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (credentials) => {
   try {
-    console.log(credentials)
     const response = await api.post('user/login', credentials);
     return response.data;
   } catch (error) {

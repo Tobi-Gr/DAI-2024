@@ -15,7 +15,7 @@ export default function Index() {
     const getId = async () => {
         const endpoint = 'user/username/' + nombre;
         const user = await getAuth(endpoint, token);
-        console.log(user);
+        console.log('user ', user)
         return user.id;
     };
 
@@ -34,7 +34,6 @@ export default function Index() {
         try {
             const data = await getEventos(token);
             setEventos(data);
-            console.log(data[0]);
         } catch (error) {
             console.error('Error al cargar los eventos:', error);
         }
@@ -44,6 +43,7 @@ export default function Index() {
         const fetchData = async () => {
             const userId = await getId();
             setId(userId);
+            console.log('userID', userId)
             await fetchEventos();
         };
         fetchData();
@@ -58,7 +58,6 @@ export default function Index() {
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
                         <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEvento', { token: token, idUser: id, idEvent: item.id })}>{item.name} console,</Text>
-                        {/* <Text style={styles.eventTitle} onPress={() => console.log('a ver este id: ', item.id)}> {item.name} </Text> */}
                         <Text>{item.start_date}</Text>
                         {canAddAttendant(item)
                             ? <Text style={styles.attendantText}>Podes unirte</Text>

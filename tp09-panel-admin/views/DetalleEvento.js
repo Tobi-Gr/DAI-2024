@@ -3,10 +3,11 @@ import { StyleSheet, View, Text } from 'react-native';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
 import React, { useState, useEffect } from 'react';
+import BotonSecundario from '../components/BotonSecundario';
 
 export default function DetalleEvento() {
     const route = useRoute();
-    const { idEvento, token } = route.params;
+    const { idEvento, token, idUser } = route.params;
     const navigation = useNavigation();
 
     const getEvent = async () => {
@@ -15,10 +16,14 @@ export default function DetalleEvento() {
         console.log(event);
         return event;
     };
+
+    const enroll = async () => {
+        alert('¿?')
+    }
     return (
         <View style={[styles.boxShadow, styles.container]}>
-            <Boton style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('DetalleEvento', { token: token, id: id, idEvent: item.id })}/>
-            <Boton style={styles.principal} text={'Inscribirse'} onPress={guardarEvento}/> 
+            <BotonSecundario style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('Index', { token: token, id: idUser})}/>
+            <Boton style={styles.principal} text={'Inscribirse'} onPress={enroll}/> 
         </View>
     );
 }
