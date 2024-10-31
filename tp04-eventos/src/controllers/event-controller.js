@@ -113,7 +113,7 @@ router.delete('/:id', am.AuthMiddleware, async (req, res) => {
 })
 //no estamos usando el validator, pero lo importamos por alguna razón
 
-router.get('/:id/enrollment', async (req, res) =>{
+router.get('/enrollment/:id', async (req, res) =>{
     let respuesta;
     const id_event = req.params.id;
     const filtro = req.query;
