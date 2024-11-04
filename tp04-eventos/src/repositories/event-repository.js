@@ -122,17 +122,6 @@ export default class EventRepository {
     WHERE e.id = $1`, [id]);        
         return event;
     }
-    
-    // createEvent = async (entity) => {
-    //     let created = await dbh.requestOne(`
-    //     INSERT INTO public.events(name, description, id_event_category, id_event_location, start_date, 
-    //                                 duration_in_minutes, price, enabled_for_enrollment, max_assistance, id_creator_user)
-    //     VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-    //     [entity.name, entity.description, entity.id_event_category, entity.id_event_location, entity.start_date, 
-    //         entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment, entity.max_assistance, 
-    //         entity.id_creator_user])
-    //     return created;
-    // }
 
     createEvent = async (entity) => {
         // verifica si los IDs de categoría y ubicación existen
@@ -163,5 +152,17 @@ export default class EventRepository {
         
         return created;
     }
+    
+    updateEvent = async(entity) => {
+        let updated = await dbh.requestOne(`
+            UPDATE public.event_locations 
+            SET name = $1, description = $2, id_event_category = $3, id_event_location = $4, start_date = $5, duration_in_minutes = $6, price = $7, enabled_for_enrollment = $8, max_assistance = $9, id_creator_user = $10
+            WHERE id = $11`,
+            [entity.name, entity.description, entity.id_event_category, entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment, entity.max_assistance, entity.id_creator_user, entity.id]);
+
+        return updated;
+    }
+
+
     
 }

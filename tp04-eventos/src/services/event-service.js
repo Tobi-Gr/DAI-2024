@@ -30,4 +30,6 @@ export default class EventService {
         const created = await repo.createEvent(entity);
         return created;
     }
+
+    updateEvent = async(entity)
 }

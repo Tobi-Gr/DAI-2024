@@ -44,6 +44,7 @@ router.post('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
         "id_event": event.id,
         "id_user": user.id,
         "description": event.description,
+        "registration_date_time": registration_date_time,
     });
     return res.status(201).send("Te registraste.");
 });
