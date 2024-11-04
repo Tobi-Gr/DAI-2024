@@ -21,7 +21,6 @@ export default function Panel() {
         try {
             const data = await getEventos(token);
             setEventos(data);
-            console.log(data[0]);
         } catch (error) {
             console.error('Error al cargar los eventos:', error);
         }
@@ -43,7 +42,7 @@ export default function Panel() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', {idEvent: item.id })}>{item.name}</Text>
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', {idEvent: item.id, evento: item, token: token })}>{item.name}</Text>
                         <Text>{item.start_date}</Text>
                     </View>
                 )}
@@ -56,7 +55,7 @@ export default function Panel() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', { idEvent: item.id })}>{item.name}</Text>
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', { idEvent: item.id, evento: item, token: token })}>{item.name}</Text>
                         <Text>{item.start_date}</Text>
                     </View>
                 )}

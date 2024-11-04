@@ -35,7 +35,6 @@ export default function Confirmacion() {
         'Precio': eventoACrear.price,
         'Asistencia máxima': eventoACrear.max_assistance,
     };
-    console.log(eventoNuevo);
 
     return (
         <View style={[styles.boxShadow, styles.container]}>

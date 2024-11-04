@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
         width: '80%'
     },
     button: {
-        width: '60%', 
         backgroundColor: '#007BFF', 
         paddingVertical: 15,
         paddingHorizontal: 20,

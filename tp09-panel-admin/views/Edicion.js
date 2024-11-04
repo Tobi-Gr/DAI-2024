@@ -10,15 +10,17 @@ import { getCategories, getLocations, postAuth } from '../authService';
 import DateInput from '../components/dateInput';
 import BotonSecundario from '../components/BotonSecundario';
 
-export default function Formulario() {
+
+export default function Edicion() {
     const navigation = useNavigation();
+    const route = useRoute();
+    const { token, eventoAEditar, idUser } = route.params;
     
     const [ nombre, setNombre ] = useState("");
     const [ descripcion, setDescripcion ] = useState("");
     const [ duracion, setDuracion ] = useState("");
     const [ precio, setPrecio ] = useState("");
     const [ asistenciaMax, setAsistenciaMax ] = useState("");
-    // const [showDatePicker, setShowDatePicker] = useState(false);
     const [ eventDate, setEventDate] = useState("");
     
     const [categories, setCategories ] = useState([]);
@@ -26,15 +28,14 @@ export default function Formulario() {
     const [idSelectedCategory, idSetSelectedCategory] = useState(null);
     const [idSelectedLocation, setIdSelectedLocation] = useState(null);
     
-    const route = useRoute();
-    const { token, idUser, nombre_user } = route.params;  
-    console.log(idUser);
-
     const renderItem = (item) => (
         <View style={styles.item}>
         <Text style={styles.itemText}>{item.name}</Text>
         <Text style={styles.itemDate}>{item.start_date}</Text>
         </View>
+    );
+    const handleGuardar = () => (
+        alert('hola!')
     );
 
     useEffect(() => {
@@ -55,36 +56,19 @@ export default function Formulario() {
                 console.error('(UseEffect) Error al cargar las localidades:', error);
             }
         };
-    
+        console.log('eventoAEditar', eventoAEditar);
         fetchCategories();
         fetchLocations();
     }, [token]);
 
-    function handleGuardar(){
-        const eventoACrear = {
-            'name': nombre,
-            'description': descripcion,
-            'id_event_category': idSelectedCategory,
-            'id_event_location': idSelectedLocation,
-            'start_date': eventDate,
-            'duration_in_minutes': duracion,
-            'price': precio,
-            "enabled_for_enrollment": 1,
-            'max_assistance': asistenciaMax,
-            "id_creator_user": idUser
-        }
-        navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations, nombre_user: nombre_user, idUser: idUser});
-        console.log(eventoACrear);
-    }
-
     return (
         <View style={styles.container}>
-            <Title text="Crear un nuevo evento" />
-            <CustomTextInput placeholder="Nombre" value={nombre} onChangeText={setNombre}/>
-            <CustomTextInput placeholder="Descripción" value={descripcion} onChangeText={setDescripcion}/>
-            <NumberInput placeholder="Duración en minutos" value={duracion} onChange={setDuracion}/>
-            <NumberInput placeholder="Precio" value={precio} onChange={setPrecio}/>
-            <NumberInput placeholder="Asistencia máxima" value={asistenciaMax} onChange={setAsistenciaMax}/>
+            <Title text='Editar evento'/>
+            <CustomTextInput placeholder="Nombre" value={eventoAEditar.name} onChangeText={setNombre}/>
+            <CustomTextInput placeholder="Descripción" value={eventoAEditar.description} onChangeText={setDescripcion}/>
+            <NumberInput placeholder="Duración en minutos" value={eventoAEditar.duration_in_minutes} onChange={setDuracion}/>
+            <NumberInput placeholder="Precio" value={eventoAEditar.price} onChange={setPrecio}/>
+            <NumberInput placeholder="Asistencia máxima" value={eventoAEditar.max_assistance} onChange={setAsistenciaMax}/>
             <DateInput date={eventDate} setFecha={setEventDate}/>
             <View style={styles.dropdownContainer}>
                 <Dropdown
@@ -115,16 +99,36 @@ export default function Formulario() {
             <Boton text={"Guardar"} onPress={handleGuardar} />
             <BotonSecundario style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('Index', { token: token, id: idUser})}/>
         </View>
+        
+        
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 20,
+        backgroundColor: '#f8f9fa',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
-        padding: 20,
+    },
+    datosEvento: {
+        width: '100%',
+        maxWidth: 600,
+        padding: 15,
+        backgroundColor: '#ffffff',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 5,
+        marginBottom: 20,
+    },
+    text: {
+        fontSize: 16,
+        color: '#333',
+        marginVertical: 5,
     },
     dropdownContainer: {
         width: '100%',
@@ -141,38 +145,5 @@ const styles = StyleSheet.create({
         elevation: 5,
         borderColor: 'transparent',
         fontSize: 16
-    },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#333', 
-        marginBottom: 20,
-    },
-    boton: {
-        backgroundColor: '#4CAF50', 
-        paddingVertical: 15,
-        paddingHorizontal: 30,
-        borderRadius: 5,
-        elevation: 3, 
-    },
-    botonText: {
-        color: '#fff',
-        fontSize: 18,
-        textAlign: 'center',
-    },
-    item: {
-        padding: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
-        backgroundColor: '#f9f9f9',
-    },
-    itemText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    itemDate: {
-        fontSize: 12,
-        color: '#666',
     },
 });
