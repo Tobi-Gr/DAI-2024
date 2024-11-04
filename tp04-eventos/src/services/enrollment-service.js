@@ -13,8 +13,8 @@ export default class EnrollmentService {
         return count;
     }
 
-    getByUserIdAndEventId = async (id_user) => {
-        const registration = await repo.getByUserIdAndEventId(id_user);
+    getByUserIdAndEventId = async (id_user, id_event) => {
+        const registration = await repo.getByUserIdAndEventId(id_user, id_event);
         return registration;
     }
 
