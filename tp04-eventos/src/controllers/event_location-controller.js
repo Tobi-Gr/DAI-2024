@@ -45,7 +45,7 @@ router.post('', mw.AuthMiddleware, async (req, res) => {
             respuesta = res.status(400).send("Bad request, la asistencia del evento excede los límites de la locación");   
         else
             createdEntity = await svc.createEventLocation(req.body);
-            return res.status(200).send("Evento creado.");
+            return res.status(200).send("Localidad creada.");
             
     } catch (error) {
         console.error(error);

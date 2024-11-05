@@ -127,4 +127,49 @@ router.get('/enrollment/:id', async (req, res) =>{
     return respuesta;
 });
 
+
+router.put('', async (req, res) => {
+    try {
+        const eventLocation = await svc_el.getByIdAsync(req.body.id_event_location);
+        console.log('event location', eventLocation)
+        console.log('req.body: \n', req.body)
+        
+        if (!req.body.id_event_location) {
+            return res.status(400).send("Bad request, id de la localidad no existe en el contexto actual");
+        }
+
+        if (req.body.name == null || req.body.name.length < 3 || eventLocation.full_address == null || eventLocation.full_address.length < 3) {
+            return res.status(400).send("Bad request, nombre y descripción tienen que tener más de tres caracteres");
+        }
+
+        if (req.body.max_assistance > eventLocation.max_capacity) {
+            return res.status(400).send("Bad request, la asistencia del evento excede los límites de la localidad");
+        }
+
+        if(req.body.price < 0 || req.body.duration_in_minutes < 0){
+            return res.status(400).send("Bad request, la duración del evento o el precio son menores que 0");
+        }
+        let updatedEntity = await svc.updateEvent(req.body);
+        return res.status(200).send("Evento actualizado.");
+    } catch(error) {
+        console.error(error);
+        return res.status(500).send("Error en la creación");
+    }
+});
+
+router.delete('/:id', async (req, res) => { 
+    let respuesta;
+    if (v.isANumber(req.params.id)) {
+        try {
+            await svc.deleteByIdAsync(req.params.id);
+            respuesta = res.status(200).send("Ok.");
+        } catch (error) {
+            respuesta = res.status(500).send(error.message);
+        }
+    } else {
+        respuesta = res.status(400).send(`Datos inválidos.`);
+    }
+    return respuesta;
+});
+
 export default router;
