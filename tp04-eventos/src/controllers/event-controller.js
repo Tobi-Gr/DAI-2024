@@ -40,14 +40,16 @@ router.post('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
         return res.status(400).send("Ya te registraste para este evento antes.");
     }
 
-    svc_enrollment.createAsync({
+    await svc_enrollment.createAsync({
         "id_event": event.id,
         "id_user": user.id,
         "description": event.description,
         "registration_date_time": event.registration_date_time,
     });
+
     return res.status(201).send("Te registraste.");
 });
+
 
 router.get('', async(req, res) => {
     const returnArray = await svc.getAll(req.query.pagina, req.query.limit);
