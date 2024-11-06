@@ -64,19 +64,24 @@ export default function DetalleEventoAdmin() {
                     style={styles.flatList}
                 />
             </View>
-            <View>
+            <View style={styles.containerBotones}>
                 <BotonSecundario 
                     text={'Atrás'} 
                     onPress={() => navigation.navigate('Index', { token: token, id: idUser })} 
                 />
                 {fechaInicioEvento > fechaActual ? (
-                    <Boton 
-                        text={'Editar'} 
-                        onPress={() => navigation.navigate('Edicion', { idEvent: idEvent, token: token, id: idUser, eventoAEditar: evento })} 
-                    />
+                    <>
+                        <Boton 
+                            text={'Editar'} 
+                            onPress={() => navigation.navigate('Edicion', { idEvent: idEvent, token: token, id: idUser, eventoAEditar: evento })} 
+                        />
+                        <Boton
+                            text={'Eliminar'}
+                            onPress={() => console.log('eliminar evento')}
+                        />
+                    </>
                 ) : null}
-            </View>
-            
+            </View>            
         </View>
     );
 }
@@ -88,6 +93,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f9fa',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    containerBotones: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        width: '70%',
+        maxWidth: 600,
+        marginTop: 20,
     },
     card: {
         width: '100%',
@@ -102,26 +114,25 @@ const styles = StyleSheet.create({
         elevation: 5,
         marginBottom: 20,
     },
-    cardData:
-    {
-        height: 'fit-content'
+    cardData: {
+        height: 'fit-content',
     },
-    tituloCard:
-    {
+    tituloCard: {
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 30,
-        color: 'rgb(16, 137, 211)'
+        color: 'rgb(16, 137, 211)',
     },
     text: {
         fontSize: 16,
         color: '#333',
         marginVertical: 2.5,
     },
-    listContainer:{
-       paddingBottom: 20
+    listContainer: {
+        paddingBottom: 20,
     },
     flatList: {
         maxHeight: '50%',
-    }
+    },
 });
+
