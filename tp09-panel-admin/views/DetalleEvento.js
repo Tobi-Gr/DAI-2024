@@ -18,12 +18,8 @@ export default function DetalleEvento() {
         const endpoint = 'event/' + idEvent + '/enrollment';
         const enrollment = await postAuth(endpoint, evento, token);
         console.log('enrollment.data', enrollment.data);
-        // if(enrollment.response.data == 'Ya te registraste para este evento antes.') //no se si está bien puesto pero no tira el alert :/
-        //     alert('No te podes registrar dos veces al mismo evento')
-        // else
-            alert('Te registraste exitosamente! :D')
-            navigation.navigate('Index', { token: token, idUser: idUser});
-            //return enrollment;
+        alert('Te registraste exitosamente! :D')
+        navigation.navigate('Index', { token: token, idUser: idUser});
     }
     useEffect(() => {
         const fetchCategories = async () => {
@@ -95,7 +91,7 @@ const styles = StyleSheet.create({
     },
     datosEvento: {
         width: '100%',
-        maxWidth: 600, // Máximo ancho para pantallas grandes
+        maxWidth: 600, 
         padding: 15,
         backgroundColor: '#ffffff',
         borderRadius: 10,

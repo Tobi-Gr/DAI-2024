@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import CustomTextInput from '../components/textInput';
 import { StyleSheet, Text, View } from 'react-native';
 import { registerUser } from '../authService';
+import BotonSecundario from '../components/BotonSecundario';
 import React, {useState} from 'react';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
@@ -36,6 +37,8 @@ export default function Register() {
           <CustomTextInput placeholder="Usuario" value={username} onChangeText={setUsername} style={styles.inputContainer} />
           <CustomTextInput placeholder="Contraseña" value={contrasena} onChangeText={setContrasena} secureTextEntry style={styles.inputContainer} />
           <Boton text="Registrarse" onPress={handleRegister} />
+          <p>Ya tienes cuenta?</p>
+            <BotonSecundario text ="Inicia sesión" onPress={() => navigation.navigate('Login')}/>
         </View>
       </View>
     );

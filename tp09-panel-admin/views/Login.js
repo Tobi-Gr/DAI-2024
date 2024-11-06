@@ -5,6 +5,7 @@ import { loginUser, getAuth, getUserByUsername } from '../authService';
 import React, {useState} from 'react';
 import Title from '../components/Title';
 import Boton from '../components/Boton';
+import BotonSecundario from '../components/BotonSecundario';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -37,6 +38,8 @@ export default function Login() {
             <CustomTextInput placeholder="Usuario" value={username} onChangeText={setUsername} style={styles.inputContainer} />
             <CustomTextInput placeholder="Contraseña" value={contrasena} onChangeText={setContrasena} secureTextEntry style={styles.inputContainer} />
             <Boton text="Iniciar Sesión" onPress={handleLogin} />
+            <p>No tienes cuenta?</p>
+            <BotonSecundario text ="Regístrate" onPress={() => navigation.navigate('Register')}/>
         </View>
     </View>
   );
