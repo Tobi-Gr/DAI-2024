@@ -44,7 +44,7 @@ router.post('/:id/enrollment', am.AuthMiddleware, async(req, res) => {
         "id_event": event.id,
         "id_user": user.id,
         "description": event.description,
-        "registration_date_time": registration_date_time,
+        "registration_date_time": event.registration_date_time,
     });
     return res.status(201).send("Te registraste.");
 });
@@ -130,12 +130,14 @@ router.get('/enrollment/:id', async (req, res) =>{
 
 router.put('', async (req, res) => {
     try {
-        const eventLocation = await svc_el.getByIdAsync(req.body.id_event_location);
-        console.log('event location', eventLocation)
-        console.log('req.body: \n', req.body)
+        const event = await svc.getById(req.body.id);
+        const eventLocation = await svc_el.getByIdAsync(req.body.id_event_location)
+        console.log('(controller) event_location', eventLocation)
+        console.log('(controller) event', event)
+        console.log('(controller) req.body: \n', req.body)
         
-        if (!req.body.id_event_location) {
-            return res.status(400).send("Bad request, id de la localidad no existe en el contexto actual");
+        if (!req.body.id) {
+            return res.status(400).send("Bad request, id del evento no existe en el contexto actual");
         }
 
         if (req.body.name == null || req.body.name.length < 3 || eventLocation.full_address == null || eventLocation.full_address.length < 3) {

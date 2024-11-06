@@ -159,7 +159,7 @@ export default class EventRepository {
             SET name = $1, description = $2, id_event_category = $3, id_event_location = $4, start_date = $5, duration_in_minutes = $6, price = $7, enabled_for_enrollment = $8, max_assistance = $9, id_creator_user = $10
             WHERE id = $11`,
             [entity.name, entity.description, entity.id_event_category, entity.id_event_location, entity.start_date, entity.duration_in_minutes, entity.price, entity.enabled_for_enrollment, entity.max_assistance, entity.id_creator_user, entity.id]);
-            console.log('updated', updated);
+            console.log('(repository) updated', updated);
             return updated;
     }
 
