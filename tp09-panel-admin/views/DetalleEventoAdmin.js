@@ -5,7 +5,7 @@ import BotonSecundario from '../components/BotonSecundario';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
 import React, { useState, useEffect } from 'react';
-import { get } from '../authService';
+import { get, deleteAuth } from '../authService';
 
 export default function DetalleEventoAdmin() {
     const navigation = useNavigation();
@@ -22,6 +22,21 @@ export default function DetalleEventoAdmin() {
             console.error('Error al cargar los inscriptos:', error);
         }
     };
+
+    const eliminarEvento = async () => {
+        const confirmacion = window.confirm("¿Querés eliminar el evento?");
+    
+        if (confirmacion) {
+            try {
+                await deleteAuth(`event/${evento.id}`, token);
+                alert("Evento eliminado con éxito.");
+            } catch (error) {
+                console.error("Error al eliminar el evento:", error);
+                alert("Hubo un problema al eliminar el evento.");
+            }
+        }
+    };
+    
 
     useEffect(() => {
         fetchInscriptos();
@@ -77,11 +92,11 @@ export default function DetalleEventoAdmin() {
                         />
                         <Boton
                             text={'Eliminar'}
-                            onPress={() => console.log('eliminar evento')}
+                            onPress={eliminarEvento}
                         />
                     </>
                 ) : null}
-            </View>            
+            </View>
         </View>
     );
 }
@@ -96,10 +111,10 @@ const styles = StyleSheet.create({
     },
     containerBotones: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        width: '70%',
+        width: '10%',
         maxWidth: 600,
         marginTop: 20,
+        left: -120
     },
     card: {
         width: '100%',
