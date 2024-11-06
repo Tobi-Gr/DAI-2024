@@ -41,6 +41,21 @@ export const getAuth = async(endpoint, credentials) => {
   }
 }
 
+export const deleteAuth = async(endpoint, credentials) => {
+  try{
+    const response = await api.delete(endpoint, {headers: {
+      'Authorization': `Bearer ${credentials}`}
+    });
+    return response.data;
+  }
+  catch(error)
+  {
+    console.error('Error en el delete: ', error);
+    console.error('Endpoint: ', endpoint)
+    throw error;
+  }
+}
+
 export const get = async(endpoint) => {
   try{
     const response = await api.get(endpoint);
@@ -96,17 +111,23 @@ export const getLocations = async (credentials) => {
   }
 };
 
-export const getEventos = async(credentials) => {
+export const getEventos = async (credentials) => {
   try {
-    const response = await api.get('event', {headers: {
-      'Authorization': `Bearer ${credentials}`}
-  });
+    const response = await api.get('event', {
+      headers: {
+        'Authorization': `Bearer ${credentials}`
+      },
+      params: {
+        limit: 100
+      }
+    });
     return response.data;
   } catch (error) {
     console.error('Error en el fetch de los eventos:', error);
     throw error;
   }
 }
+
 
 export const createEvent = async(credentials) => {
   try{
