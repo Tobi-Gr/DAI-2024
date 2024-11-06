@@ -1,16 +1,31 @@
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import BotonSecundario from '../components/BotonSecundario';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { get } from '../authService';
 
 export default function DetalleEventoAdmin() {
     const navigation = useNavigation();
     const saludo = "Detalle del evento";
     const route = useRoute();
     const { idEvent, token, idUser, evento } = route.params;
+    const [inscriptos, setInscriptos] = useState([]);
+
+    const fetchInscriptos = async () => {
+        try {
+            const data = await get('event/enrollment/' + idEvent);
+            setInscriptos(data);
+        } catch (error) {
+            console.error('Error al cargar los inscriptos:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchInscriptos();
+    }, []);
 
     const displayData = {
         'Nombre': evento.name,
@@ -28,12 +43,26 @@ export default function DetalleEventoAdmin() {
     return (
         <View style={styles.container}>
             <Title text={saludo} />
-            <View style={styles.datosEvento}>
+            <View style={[styles.card, styles.cardData]}>
                 {Object.entries(displayData).map(([key, value]) => (
                     <Text key={key} style={styles.text}>
                         {`${key}: ${value}`}
                     </Text>
                 ))}
+            </View>
+            <View style={styles.card}>
+                <h2 style={styles.tituloCard}>Inscriptos</h2>
+                <FlatList
+                    data={inscriptos}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Text style={styles.text}>{item.username}</Text>
+                        </View>
+                    )}
+                    contentContainerStyle={styles.listContainer}
+                    style={styles.flatList}
+                />
             </View>
             <View>
                 <BotonSecundario 
@@ -47,6 +76,7 @@ export default function DetalleEventoAdmin() {
                     />
                 ) : null}
             </View>
+            
         </View>
     );
 }
@@ -59,7 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    datosEvento: {
+    card: {
         width: '100%',
         maxWidth: 600,
         padding: 15,
@@ -72,9 +102,26 @@ const styles = StyleSheet.create({
         elevation: 5,
         marginBottom: 20,
     },
+    cardData:
+    {
+        height: 'fit-content'
+    },
+    tituloCard:
+    {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 30,
+        color: 'rgb(16, 137, 211)'
+    },
     text: {
         fontSize: 16,
         color: '#333',
-        marginVertical: 5,
+        marginVertical: 2.5,
     },
+    listContainer:{
+       paddingBottom: 20
+    },
+    flatList: {
+        maxHeight: '50%',
+    }
 });
