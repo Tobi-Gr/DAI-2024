@@ -23,4 +23,9 @@ export default class UserService {
         const user = await repo.getByUsernameAsync(username);
         return user;
     }
+
+    createUserAsync = async (entity) => {
+        const user = await repo.createUserAsync(entity);
+        return user;
+    }
 }

@@ -70,6 +70,7 @@ router.post('/register', async (req, res)=>{
             respuesta = res.status(400).send("La contraseña tiene que tener más de tres letras");
         }
         else{
+            let newUser = await svc.createUserAsync(req.body);
             respuesta = res.status(200).send("Usuario creado.");
         }
     }

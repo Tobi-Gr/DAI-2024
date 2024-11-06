@@ -20,6 +20,10 @@ export default class UserRepository {
         return dbh.requestOne('SELECT * FROM public.users WHERE username = $1;', [username]);
     }
 
+    createUserAsync = async (entity) => {
+        return dbh.requestOne('INSERT INTO public.users(first_name, last_name, username, password) VALUES ($1, $2, $3, $4)',
+        [entity.first_name, entity.last_name, entity.username, entity.password]);
+    }
     /* PUNTO 5 
     falta terminar de editar el código, perdón re lento todo pero lo que me dejó mi mano :(( ))
     getByFilter = async (entity) => {
@@ -63,4 +67,6 @@ export default class UserRepository {
         return dbh.requestValues(query, params);
     }
     */
+
+    
 }
