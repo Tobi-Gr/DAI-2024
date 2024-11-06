@@ -133,9 +133,6 @@ router.put('', async (req, res) => {
     try {
         const event = await svc.getById(req.body.id);
         const eventLocation = await svc_el.getByIdAsync(req.body.id_event_location)
-        console.log('(controller) event_location', eventLocation)
-        console.log('(controller) event', event)
-        console.log('(controller) req.body: \n', req.body)
         
         if (!req.body.id) {
             return res.status(400).send("Bad request, id del evento no existe en el contexto actual");
