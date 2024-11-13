@@ -40,12 +40,14 @@ export default function Index() {
 
     useEffect(() => {
         const fetchData = async () => {
+            setEventos([]);  // Limpiar eventos antes de hacer el fetch
             const userId = await getId();
             setId(userId);
             await fetchEventos();
         };
         fetchData();
     }, []);
+    
 
     return (
         <View style={styles.container}>
@@ -68,7 +70,7 @@ export default function Index() {
             />
             <Boton text={"Crear nuevo evento"} onPress={() => navigation.navigate('Formulario', { token: token, idUser: id, nombre_user: nombre })} />
             {id === 92 || id === 50 ? (
-            <BotonSecundario text="Ver todos los eventos" onPress={() => navigation.navigate("Panel", { token: token })} />
+            <BotonSecundario text="Ver todos los eventos" onPress={() => navigation.navigate("Panel", { token: token, nombre_user: nombre, idUser: id })} />
             ) : null}
 
         </View>

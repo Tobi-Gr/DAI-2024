@@ -41,6 +41,24 @@ export const getAuth = async(endpoint, credentials) => {
   }
 }
 
+//Update
+export const putAuth = async (endpoint, credentials, body) => {
+  try {
+    const response = await api.put(endpoint, body, {
+      headers: {
+        'Authorization': `Bearer ${credentials}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Endpoint:', endpoint);
+    console.error('Error en el put:', error);
+    throw error;
+  }
+};
+
+
 export const deleteAuth = async(endpoint, credentials) => {
   try{
     const response = await api.delete(endpoint, {headers: {

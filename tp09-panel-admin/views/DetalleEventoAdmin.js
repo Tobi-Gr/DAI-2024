@@ -11,7 +11,7 @@ export default function DetalleEventoAdmin() {
     const navigation = useNavigation();
     const saludo = "Detalle del evento";
     const route = useRoute();
-    const { idEvent, token, idUser, evento } = route.params;
+    const { idEvent, token, idUser, evento, nombre_user } = route.params;
     const [inscriptos, setInscriptos] = useState([]);
 
     const fetchInscriptos = async () => {
@@ -88,7 +88,7 @@ export default function DetalleEventoAdmin() {
                     <>
                         <Boton 
                             text={'Editar'} 
-                            onPress={() => navigation.navigate('Edicion', { idEvent: idEvent, token: token, id: idUser, eventoAEditar: evento })} 
+                            onPress={() => navigation.navigate('Edicion', { idEvent: idEvent, token: token, idUser: idUser, eventoAEditar: evento, nombre_user: nombre_user })} 
                         />
                         <Boton
                             text={'Eliminar'}

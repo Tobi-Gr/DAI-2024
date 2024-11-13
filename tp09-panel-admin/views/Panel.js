@@ -10,7 +10,7 @@ export default function Panel() {
     const navigation = useNavigation();
     const route = useRoute();
     const [eventos, setEventos] = useState([]);
-    const { token } = route.params;
+    const { token, nombre_user, idUser } = route.params;
 
     function isDateFuture(event) {
         const hoy = new Date();
@@ -42,7 +42,7 @@ export default function Panel() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', {idEvent: item.id, evento: item, token: token })}>{item.name}</Text>
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', {idEvent: item.id, evento: item, token: token, nombre_user: nombre_user, idUser })}>{item.name}</Text>
                         <Text>{item.start_date}</Text>
                     </View>
                 )}
@@ -55,7 +55,7 @@ export default function Panel() {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.eventContainer}>
-                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', { idEvent: item.id, evento: item, token: token })}>{item.name}</Text>
+                        <Text style={styles.eventTitle} onPress={() => navigation.navigate('DetalleEventoAdmin', { idEvent: item.id, evento: item, token: token, idUser, nombre_user })}>{item.name}</Text>
                         <Text>{item.start_date}</Text>
                     </View>
                 )}

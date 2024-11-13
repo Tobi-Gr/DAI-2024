@@ -1,46 +1,66 @@
-import React from 'react';
-import { View, TextInput, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, Text, StyleSheet } from 'react-native';
 
-const DateInput = ({ fecha, setFecha }) => {
-  
+const DateInput = ({ fecha, setFecha, placeholder }) => {
+  const [error, setError] = useState('');
+
+  // Función para formatear la fecha en formato dd/mm/yyyy
+  const formatDate = (date) => {
+    if (!date) return '';
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0'); // Añade un 0 si es menor a 10
+    const month = String(d.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  // Función que maneja el cambio de texto en el input
   const handleChange = (newDate) => {
-    const datePattern = /^\d{4}-\d{2}-\d{2}$/;
-    if (newDate.match(datePattern) || newDate === '') {
-      setFecha(newDate);  // Solo actualizamos si la fecha es válida o si el campo está vacío
+    setFecha(newDate);
+
+    // Validación del formato dd/mm/yyyy
+    const datePattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+    if (newDate && !newDate.match(datePattern)) {
+      setError('Fecha no válida. Usa el formato dd/mm/yyyy');
     } else {
-      alert('Fecha no válida');
+      setError('');
     }
   };
 
-  console.log('fecha en el componente dateInput', fecha);
   return (
     <View>
       <TextInput
         style={styles.input}
-        placeholder={fecha}
         value={fecha}
+        placeholder={placeholder ? formatDate(placeholder) : ''}
         onChangeText={handleChange}
       />
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   input: {
-    width: '100%',  // Aquí el 118em no es una medida válida en react native
+    width: '100%',
     backgroundColor: 'white',
-    borderWidth: 0,
+    borderWidth: 1,
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 20,
     marginTop: 15,
     shadowColor: '#0060DD',
     shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3, 
+    shadowOpacity: 0.3,
     shadowRadius: 10,
     elevation: 5,
     borderColor: 'transparent',
     fontSize: 16,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 5,
   },
 });
 
