@@ -153,7 +153,7 @@ router.put('', async (req, res) => {
         return res.status(200).send("Evento actualizado.");
     } catch(error) {
         console.error(error);
-        return res.status(500).send("Error en la creación");
+        return res.status(500).send("Error en la actualización");
     }
 });
 
