@@ -8,39 +8,37 @@ import NumberInput from '../components/numberInput';
 import { Dropdown } from 'react-native-element-dropdown';
 import { getCategories, getLocations, postAuth } from '../authService';
 import BotonSecundario from '../components/BotonSecundario';
-import DateTimePicker from '../components/DateTimePicker'
+import DatePicker from '../components/DateTimePicker'
 export default function Formulario() {
     const navigation = useNavigation();
-    
+ 
     const [ nombre, setNombre ] = useState("");
     const [ descripcion, setDescripcion ] = useState("");
     const [ duracion, setDuracion ] = useState("");
     const [ precio, setPrecio ] = useState("");
     const [ asistenciaMax, setAsistenciaMax ] = useState("");
     const [ eventDate, setEventDate] = useState("");
-    
+ 
     const [categories, setCategories ] = useState([]);
     const [locations, setLocations]  = useState([]);
     const [idSelectedCategory, idSetSelectedCategory] = useState(null);
     const [idSelectedLocation, setIdSelectedLocation] = useState(null);
-    
+ 
     const route = useRoute();
     const { token, idUser, nombre_user } = route.params;  
-    console.log(idUser);
 
     const [date, setDate] = useState(new Date());
-
+    const [show, setShow] = useState();    
     const onChange = (newDate) => {
         setDate(newDate);
-    };
-
+    };   
     const renderItem = (item) => (
         <View style={styles.item}>
         <Text style={styles.itemText}>{item.name}</Text>
         <Text style={styles.itemDate}>{item.start_date}</Text>
         </View>
-    );
-
+    );    
+    
     useEffect(() => {
         const fetchCategories = async () => {
             try {
@@ -50,7 +48,7 @@ export default function Formulario() {
                 console.error('(UseEffect) Error al cargar las categorías:', error);
             }
         };
-    
+ 
         const fetchLocations = async () => {
             try {
                 const data = await getLocations(token);
@@ -59,11 +57,11 @@ export default function Formulario() {
                 console.error('(UseEffect) Error al cargar las localidades:', error);
             }
         };
-    
+ 
         fetchCategories();
         fetchLocations();
     }, [token]);
-
+    
     function handleGuardar(){
         const eventoACrear = {
             'name': nombre,
@@ -82,8 +80,8 @@ export default function Formulario() {
     }
     const showDatePicker = () => {
         setShow(true); 
-      };
-
+    };    
+    
     return (
         <View style={styles.container}>
             <Title text="Crear un nuevo evento" />
@@ -92,6 +90,7 @@ export default function Formulario() {
             <NumberInput placeholder="Duración en minutos" value={duracion} onChange={setDuracion}/>
             <NumberInput placeholder="Precio" value={precio} onChange={setPrecio}/>
             <NumberInput placeholder="Asistencia máxima" value={asistenciaMax} onChange={setAsistenciaMax}/>
+            <DatePicker value={eventDate} onChange={setEventDate}/>
             {/* <DateInput date={eventDate} setFecha={setEventDate}/> */}
             <View style={styles.dropdownContainer}>
                 <Dropdown
@@ -121,17 +120,7 @@ export default function Formulario() {
             </View>
             <Boton text={"Guardar"} onPress={handleGuardar} />
             <BotonSecundario style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('Index', { token: token, id: idUser})}/>
-            <Boton text={"Seleccionar fecha y hora"} onPress={() => setShow(true)} />
-
-            <DateTimePicker
-                onChange={onChange}
-                value={date}
-                format="dd/MM/y HH:mm" 
-                disableClock={false}
-                minDate={new Date()}
-                maxDate={new Date(2025, 12, 31)}
-                locale="es"
-            />
+            {/* <Boton text={"Seleccionar fecha y hora"} onPress={() => showDatePicker()} /> */}
         </View>
     );
 }
