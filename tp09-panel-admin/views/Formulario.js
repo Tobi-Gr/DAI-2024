@@ -7,9 +7,8 @@ import CustomTextInput from '../components/textInput';
 import NumberInput from '../components/numberInput';
 import { Dropdown } from 'react-native-element-dropdown';
 import { getCategories, getLocations, postAuth } from '../authService';
-import DateInput from '../components/dateInput';
 import BotonSecundario from '../components/BotonSecundario';
-
+import DateTimePicker from '../components/DateTimePicker'
 export default function Formulario() {
     const navigation = useNavigation();
     
@@ -18,7 +17,6 @@ export default function Formulario() {
     const [ duracion, setDuracion ] = useState("");
     const [ precio, setPrecio ] = useState("");
     const [ asistenciaMax, setAsistenciaMax ] = useState("");
-    // const [showDatePicker, setShowDatePicker] = useState(false);
     const [ eventDate, setEventDate] = useState("");
     
     const [categories, setCategories ] = useState([]);
@@ -29,6 +27,12 @@ export default function Formulario() {
     const route = useRoute();
     const { token, idUser, nombre_user } = route.params;  
     console.log(idUser);
+
+    const [date, setDate] = useState(new Date());
+
+    const onChange = (newDate) => {
+        setDate(newDate);
+    };
 
     const renderItem = (item) => (
         <View style={styles.item}>
@@ -76,6 +80,9 @@ export default function Formulario() {
         navigation.navigate('Confirmacion', {eventoACrear: eventoACrear, token: token, categories: categories, locations: locations, nombre_user: nombre_user, idUser: idUser});
         console.log(eventoACrear);
     }
+    const showDatePicker = () => {
+        setShow(true); 
+      };
 
     return (
         <View style={styles.container}>
@@ -85,7 +92,7 @@ export default function Formulario() {
             <NumberInput placeholder="Duración en minutos" value={duracion} onChange={setDuracion}/>
             <NumberInput placeholder="Precio" value={precio} onChange={setPrecio}/>
             <NumberInput placeholder="Asistencia máxima" value={asistenciaMax} onChange={setAsistenciaMax}/>
-            <DateInput date={eventDate} setFecha={setEventDate}/>
+            {/* <DateInput date={eventDate} setFecha={setEventDate}/> */}
             <View style={styles.dropdownContainer}>
                 <Dropdown
                     data={categories}
@@ -114,6 +121,17 @@ export default function Formulario() {
             </View>
             <Boton text={"Guardar"} onPress={handleGuardar} />
             <BotonSecundario style={styles.secundario} text={'Atrás'} onPress={() => navigation.navigate('Index', { token: token, id: idUser})}/>
+            <Boton text={"Seleccionar fecha y hora"} onPress={() => setShow(true)} />
+
+            <DateTimePicker
+                onChange={onChange}
+                value={date}
+                format="dd/MM/y HH:mm" 
+                disableClock={false}
+                minDate={new Date()}
+                maxDate={new Date(2025, 12, 31)}
+                locale="es"
+            />
         </View>
     );
 }

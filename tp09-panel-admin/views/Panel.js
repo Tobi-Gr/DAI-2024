@@ -62,6 +62,7 @@ export default function Panel() {
                 contentContainerStyle={styles.listContainer}
                 style={styles.flatList}
             />
+            <Boton text={"Atrás"} onPress={() => navigation.navigate('Index', { token: token, nombre_user: nombre_user, idUser })}/>
         </View>
     );
 }

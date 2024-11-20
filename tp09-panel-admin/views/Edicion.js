@@ -7,7 +7,7 @@ import CustomTextInput from '../components/textInput';
 import NumberInput from '../components/numberInput';
 import { Dropdown } from 'react-native-element-dropdown';
 import { getCategories, getLocations, putAuth } from '../authService';
-import DateInput from '../components/dateInput';
+import DateInput from '../components/DateTimePicker';
 import BotonSecundario from '../components/BotonSecundario';
 
 export default function Edicion() {
