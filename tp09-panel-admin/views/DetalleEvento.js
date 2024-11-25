@@ -4,7 +4,7 @@ import Boton from '../components/Boton';
 import React, { useState, useEffect } from 'react';
 import BotonSecundario from '../components/BotonSecundario';
 import { postAuth } from '../authService';
-import { getCategories, getLocations, getAuth } from '../authService';
+import { getCategories, getLocations } from '../authService';
 
 export default function DetalleEvento() {
     const route = useRoute();
@@ -13,6 +13,8 @@ export default function DetalleEvento() {
 
     const [categories, setCategories ] = useState([]);
     const [locations, setLocations]  = useState([]);
+    const [ categoryName, setCategoryName ] = useState(null);
+    const [ locationName, setLocationName ]  = useState(null);
 
     const enroll = async () => {
         const endpoint = 'event/' + idEvent + '/enrollment';
@@ -44,15 +46,28 @@ export default function DetalleEvento() {
         fetchLocations();
     }, [token]);
 
-    console.log('id_event_category', evento.id_event_category);
-    console.log('categorías', categories); 
-    console.log('categorías sub id-event-category', categories[evento.id_event_category]); 
+    useEffect(() => {
+        if (evento.id_event_location) {
+            const location = locations.find((location) => location.id === evento.id_event_location);
+            if (location) {
+                setLocationName(location.name);
+            }
+        }
+
+        if (evento.id_event_category) {
+            const category = categories.find((category) => category.id === evento.id_event_category);
+            if (category) {
+                setCategoryName(category.name);
+            }
+        }
+    }, [locations, categories]);
+    
 
     const displayData = {
         'Nombre': evento.name,
         'Descripcion': evento.description,
-        'Categoria': evento.id_event_category || 'Desconocida', //se que solo tira el id de la categoría pero no estoy pudiendo hacer que agarre el nombre
-        'Localidad': evento.id_event_location || 'Desconocida', 
+        'Categoria': categoryName,
+        'Localidad': locationName,
         'Fecha de inicio': new Date(evento.start_date).toLocaleString(),
         'Duracion': `${evento.duration_in_minutes} minutos`,
         'Precio': `$${evento.price}`

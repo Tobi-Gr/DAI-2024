@@ -5,9 +5,13 @@ import BotonSecundario from '../components/BotonSecundario';
 import Boton from '../components/Boton';
 import Title from '../components/Title';
 import React, { useState, useEffect } from 'react';
-import { get, deleteAuth } from '../authService';
+import { get, deleteAuth, getCategories, getLocations } from '../authService';
 
-export default function DetalleEventoAdmin() {
+export default function DetalleEventoAdmin() {    
+    const [ categoryName, setCategoryName ] = useState(null);
+    const [ locationName, setLocationName ]  = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [locations, setLocations] = useState([]);
     const navigation = useNavigation();
     const saludo = "Detalle del evento";
     const route = useRoute();
@@ -23,6 +27,47 @@ export default function DetalleEventoAdmin() {
         }
     };
 
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const data = await getCategories(token);
+                setCategories(data);
+            } catch (error) {
+                console.error('(UseEffect) Error al cargar las categorías:', error);
+            }
+        };
+    
+        const fetchLocations = async () => {
+            try {
+                const data = await getLocations(token);
+                setLocations(data);
+            } catch (error) {
+                console.error('(UseEffect) Error al cargar las localidades:', error);
+            }
+        };
+    
+        fetchCategories();
+        fetchLocations();
+    }, [token]);
+
+    useEffect(() => {
+        if (locations && evento.id_event_location) {
+            const location = locations.find((location) => location.id === evento.id_event_location);
+            if (location) {
+                setLocationName(location.name);
+            }
+        }
+
+        if (categories && evento.id_event_category) {
+            const category = categories.find((category) => category.id === evento.id_event_category);
+            if (category) {
+                setCategoryName(category.name);
+            }
+        }
+    }, [locations, categories, evento]);
+
+    
+
     const eliminarEvento = async () => {
         const confirmacion = window.confirm("¿Querés eliminar el evento?");
     
@@ -35,8 +80,7 @@ export default function DetalleEventoAdmin() {
                 alert("Hubo un problema al eliminar el evento.");
             }
         }
-    };
-    
+    };    
 
     useEffect(() => {
         fetchInscriptos();
@@ -45,8 +89,8 @@ export default function DetalleEventoAdmin() {
     const displayData = {
         'Nombre': evento.name,
         'Descripcion': evento.description,
-        'Categoria': evento.id_event_category || 'Desconocida', // se que solo tira el id de la categoría pero no estoy pudiendo hacer que agarre el nombre
-        'Localidad': evento.id_event_location || 'Desconocida', 
+        'Categoria': categoryName,
+        'Localidad': locationName, 
         'Fecha de inicio': new Date(evento.start_date).toLocaleString(),
         'Duracion': `${evento.duration_in_minutes} minutos`,
         'Precio': `$${evento.price}`
